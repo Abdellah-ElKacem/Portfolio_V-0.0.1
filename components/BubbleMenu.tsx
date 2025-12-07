@@ -234,6 +234,7 @@ const BubbleMenu: React.FC<BubbleMenuProps> = ({
                             alt="Logo"
                             width={50}
                             height={50}
+                            className="w-auto h-auto"
                         />
                     ) : (
                         <Image
@@ -241,6 +242,7 @@ const BubbleMenu: React.FC<BubbleMenuProps> = ({
                             alt="Logo"
                             width={50}
                             height={50}
+                            className="w-auto h-auto"
                         />
                     )}
                 </a>

@@ -16,8 +16,7 @@ import CurvedLoop from "@/components/CurvedLoop";
 import listSkill from "@/app/skill_list";
 import SpotlightCard from "@/components/SpotlightCard";
 import SpinWord from "@/components/SpinWord";
-import Domicilia from "@/images/domicilia.png";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Plus, Minus } from "lucide-react";
 import shape1_light from "@/public/shape1_light.svg";
 import { sendEmail } from "@/app/_email/send-email";
 import shape2_light from "@/public/shape2_light.svg";
@@ -36,6 +35,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import BubbleMenu from "@/components/BubbleMenu";
 import Loading from "@/components/Loading";
+import listProject, { ProjectItem } from "@/app/project_list";
 
 export default function LandingPage() {
     const [theme, setTheme] = useState<string | null>(null);
@@ -52,6 +52,10 @@ export default function LandingPage() {
     const [anchorP2, setAnchorP2] = useState<[number, number] | null>(null);
     const [anchorP3, setAnchorP3] = useState<[number, number] | null>(null);
     const [isVisible, setIsVisible] = useState(false);
+    const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(
+        null
+    );
+    const [visibleProjectsCount, setVisibleProjectsCount] = useState(6);
     const [selectedService, setSelectedService] = useState<string | null>(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [firstName, setFirstName] = useState("");
@@ -156,6 +160,8 @@ export default function LandingPage() {
     };
 
     const details_project = () => {
+        if (!selectedProject) return null;
+
         return (
             <>
                 <div
@@ -168,28 +174,113 @@ export default function LandingPage() {
                 >
                     <div
                         onClick={(e) => e.stopPropagation()}
-                        className={`w-full flex flex-col bg-background4 max-w-[350px] md:max-w-[750px] h-full max-h-[90vh] rounded-2xl shadow-2xl border border-background2 p-2 overflow-hidden transition-all duration-500 ease-in-out ${
+                        className={`w-full flex flex-col bg-background max-w-[350px] md:max-w-[750px] h-full max-h-[90vh] rounded-2xl shadow-2xl border border-background2 p-4 overflow-hidden transition-all duration-500 ease-in-out ${
                             isVisible
                                 ? "scale-100 translate-y-0"
                                 : "scale-95 translate-y-4"
                         }`}
                     >
-                        <div className="flex flex-col gap-3 overflow-x-hidden overflow-y-auto h-full max-h-full hide-scrollbar">
-                            <div className="w-full relative">
-                                <Image
-                                    src={Domicilia}
-                                    alt="dovil"
-                                    width={30}
-                                    className="w-full h-[250px] object-cover rounded-lg"
-                                />
-                                <button
-                                    onClick={details_stats}
-                                    className="cursor-pointer self-end absolute bg-black/70 rounded-full top-2 right-2 p-[6px]"
-                                >
-                                    <X size={15} color="background" />
-                                </button>
+                        <div className="flex flex-col justify-between gap-3 overflow-x-hidden overflow-y-auto h-full max-h-full hide-scrollbar">
+                            <div className="flex flex-col gap-3">
+                                <div className="flex flex-col gap-3">
+                                    <div className="w-full relative">
+                                        <Image
+                                            src={selectedProject.image}
+                                            alt={selectedProject.title}
+                                            width={750}
+                                            height={250}
+                                            className="w-full h-[250px] object-cover rounded-sm"
+                                            style={{
+                                                width: "100%",
+                                                height: "250px",
+                                            }}
+                                            priority
+                                        />
+                                        <button
+                                            onClick={details_stats}
+                                            className="absolute top-3 right-3 cursor-pointer self-end bg-black/70 rounded-full p-[6px] w-fit"
+                                        >
+                                            <X size={15} color="background" />
+                                        </button>
+                                    </div>
+                                    <div className="flex flex-col gap-4 pb-10">
+                                        <div className="flex flex-col gap-4">
+                                            <div className="flex justify-between items-center pr-1">
+                                                <h3 className="text-3xl md:text-4xl font-medium">
+                                                    {selectedProject.title}
+                                                </h3>
+                                                <div className="p-2 px-3 text-sm bg-background1 rounded-lg w-fit h-fit">
+                                                    <p>
+                                                        {selectedProject.year}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <p className="text-sm font-medium md:w-[95%] md:pl-2 leading-relaxed">
+                                                {selectedProject.description}
+                                            </p>
+                                        </div>
+                                        <div className="flex flex-col gap-4">
+                                            <span className="text-xl text-foreground-title1 font-medium">
+                                                Technologies & Skills
+                                            </span>
+                                            <div className="flex gap-5 pl-2 flex-wrap md:w-[75%]">
+                                                {selectedProject.skills.map(
+                                                    (skill, skillIdx) => (
+                                                        <Image
+                                                            key={skillIdx}
+                                                            src={skill}
+                                                            alt={`Skill ${skillIdx}`}
+                                                            width={30}
+                                                            height={30}
+                                                            className="w-12 h-12"
+                                                        />
+                                                    )
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="flex flex-col"></div>
+                            <div className="flex flex-col gap-3">
+                                <div className="flex gap-2 flex-wrap">
+                                    {selectedProject.tags.map((tag, tagIdx) => (
+                                        <div
+                                            key={tagIdx}
+                                            className="p-2 px-3 text-xs bg-background4 rounded-lg w-fit"
+                                        >
+                                            <p>{tag}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="h-px bg-foreground-title1 rounded-full" />
+                                <div className="w-full flex gap-4 justify-end items-center">
+                                    <button
+                                        onClick={details_stats}
+                                        className="text-sm text-foreground-title1 cursor-pointer"
+                                    >
+                                        Close
+                                    </button>
+                                    {selectedProject.url ? (
+                                        <a
+                                            href={selectedProject.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="p-2 px-6 text-sm bg-background3 rounded-lg text-background flex items-center gap-2 cursor-pointer"
+                                        >
+                                            <p>View the Project</p>
+                                            <ArrowUpRight size={18} />
+                                        </a>
+                                    ) : (
+                                        <button
+                                            disabled
+                                            className="p-2 px-6 text-sm bg-background3/80 rounded-lg text-background/90 flex items-center gap-2 cursor-not-allowed "
+                                        >
+                                            <p>Coming Soon</p>
+                                            <ArrowUpRight size={18} />
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -288,6 +379,8 @@ export default function LandingPage() {
                                 alt="Logo"
                                 width={50}
                                 height={50}
+                                priority
+                                className="w-auto h-auto"
                             />
                         ) : (
                             <Image
@@ -295,6 +388,8 @@ export default function LandingPage() {
                                 alt="Logo"
                                 width={50}
                                 height={50}
+                                priority
+                                className="w-auto h-auto"
                             />
                         )}
                     </a>
@@ -498,7 +593,7 @@ export default function LandingPage() {
                                 alt="Heart"
                                 width={120}
                                 height={120}
-                                className="w-20 h-20 md:w-27 md:h-27"
+                                className="w-20 h-20 md:w-27 md:h-27 z-[-1]"
                             />
                         </div>
                     </div>
@@ -783,7 +878,7 @@ export default function LandingPage() {
                         </div>
                         <div
                             ref={processRowRef}
-                            className="relative flex md:flex-row flex-col flex-wrap justify-center md:py-40 md:gap-5 md:-space-y-2"
+                            className="relative flex md:flex-row flex-col flex-wrap justify-center md:py-30 lg:py-40 md:gap-5 md:-space-y-2"
                         >
                             <AnimatedContent
                                 distance={20}
@@ -980,43 +1075,110 @@ export default function LandingPage() {
                                 className="text-xl md:text-2xl lg:text-4xl font-medium self-end"
                                 splitType="words"
                             />
-                            {details_project()}
-                            <div className="w-full max-w-[430px] flex flex-col items-center gap-5">
-                                <div className="overflow-hidden rounded-3xl shadow-md/10 border-5 border-background">
-                                    <Image
-                                        src={Domicilia}
-                                        alt="Domicilia"
-                                        width={380}
-                                        height={300}
-                                        className="w-[430px] h-full max-h-[300px] hover:scale-105 transition-all duration-500 ease-in-out object-cover"
-                                    />
-                                </div>
-                                <div className="w-full flex flex-col gap-3">
-                                    <div className=" w-full flex items-center justify-between px-2">
-                                        <h2 className="text-lg font-semibold">
-                                            Domicilia
-                                        </h2>
-                                        <div className="flex gap-1 items-center">
-                                            <div className="p-1 px-2 text-xs bg-background2 rounded-lg">
-                                                <p>Mobile App</p>
-                                            </div>
-                                            <div className="p-1 px-2 text-xs bg-background2 rounded-lg">
-                                                <p>UI/UX Design</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className=" w-full flex items-center justify-between px-2">
-                                        <button
-                                            onClick={details_stats}
-                                            className="p-1 px-9 md:px-15 text-sm bg-background3 rounded-lg text-background flex items-center gap-2 cursor-pointer"
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-10 ">
+                                {listProject
+                                    .slice(0, visibleProjectsCount)
+                                    .map((items, index) => (
+                                        <AnimatedContent
+                                            direction="vertical"
+                                            duration={0.9}
+                                            delay={index * 0.05}
+                                            key={index}
                                         >
-                                            <p>Details</p>
-                                            <ArrowUpRight size={18} />
-                                        </button>
-                                        <h2 className="text-sm">2025</h2>
-                                    </div>
-                                </div>
+                                            <div
+                                                key={`${items.id}-${index}`}
+                                                className="w-full max-w-[430px] flex flex-col items-center gap-3 transition-opacity duration-500 ease-out"
+                                            >
+                                                <div className="overflow-hidden rounded-3xl shadow-md/10 border-5 border-background w-full h-[300px]">
+                                                    <Image
+                                                        src={items.image}
+                                                        alt={items.title}
+                                                        width={430}
+                                                        height={300}
+                                                        priority
+                                                        className="w-auto h-auto hover:scale-105 transition-all duration-500 ease-in-out object-cover"
+                                                    />
+                                                </div>
+                                                <div className="w-full flex flex-col gap-3">
+                                                    <div className=" w-full flex items-center justify-between px-2">
+                                                        <h2 className="text-sm md:text-lg font-semibold">
+                                                            {items.title}
+                                                        </h2>
+                                                        <div className="flex gap-1 items-center">
+                                                            <div className="p-1 px-2 text-xs bg-background2 rounded-lg">
+                                                                <p>
+                                                                    {
+                                                                        items
+                                                                            .tags[0]
+                                                                    }
+                                                                </p>
+                                                            </div>
+                                                            <div className="p-1 px-2 text-xs bg-background2 rounded-lg">
+                                                                <p>
+                                                                    {
+                                                                        items
+                                                                            .tags[1]
+                                                                    }
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className=" w-full flex items-center justify-between px-2 pb-3 md:pb-0">
+                                                        <button
+                                                            onClick={() => {
+                                                                setSelectedProject(
+                                                                    items
+                                                                );
+                                                                setIsVisible(
+                                                                    true
+                                                                );
+                                                            }}
+                                                            className="p-1 px-9 md:px-15 text-sm bg-background3 rounded-lg text-background flex items-center gap-2 cursor-pointer"
+                                                        >
+                                                            <p>Details</p>
+                                                            <ArrowUpRight
+                                                                size={18}
+                                                            />
+                                                        </button>
+                                                        <h2 className="text-sm">
+                                                            {items.year}
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </AnimatedContent>
+                                    ))}
                             </div>
+                            {/* See More / Show Less buttons */}
+                            {listProject.length > visibleProjectsCount && (
+                                <button
+                                    onClick={() =>
+                                        setVisibleProjectsCount((prev) =>
+                                            Math.min(
+                                                prev + 3,
+                                                listProject.length
+                                            )
+                                        )
+                                    }
+                                    className="mt-8 px-8 py-3 bg-background3 rounded-lg text-background flex justify-around items-center gap-2 cursor-pointer hover:bg-background3/90 transition-colors duration-300"
+                                >
+                                    <p>See More</p>
+                                    <Plus size={18} />
+                                </button>
+                            )}
+                            {visibleProjectsCount >= listProject.length &&
+                                visibleProjectsCount > 6 && (
+                                    <button
+                                        onClick={() =>
+                                            setVisibleProjectsCount(6)
+                                        }
+                                        className="mt-8 px-8 py-3 bg-background3 rounded-lg text-background flex justify-around items-center gap-2 cursor-pointer hover:bg-background3/90 transition-colors duration-300"
+                                    >
+                                        <p>Show Less</p>
+                                    </button>
+                                )}
+                            {/* Modal for selected project - rendered once outside the map */}
+                            {details_project()}
                         </div>
                     </div>
                 </section>
@@ -1450,6 +1612,7 @@ export default function LandingPage() {
                                                 alt="Logo"
                                                 width={50}
                                                 height={50}
+                                                className="w-auto h-auto"
                                             />
                                         ) : (
                                             <Image
@@ -1457,6 +1620,7 @@ export default function LandingPage() {
                                                 alt="Logo"
                                                 width={50}
                                                 height={50}
+                                                className="w-auto h-auto"
                                             />
                                         )}
                                     </a>
