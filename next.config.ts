@@ -13,8 +13,6 @@ const nextConfig: NextConfig = {
         maxInactiveAge: 25 * 1000,
         pagesBufferLength: 2,
     },
-    // Optimize font loading
-    optimizeFonts: true,
 };
 
 export default nextConfig;
