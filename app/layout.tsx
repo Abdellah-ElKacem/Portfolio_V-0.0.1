@@ -6,18 +6,25 @@ import "./globals.css";
 const workSans = Work_Sans({
     variable: "--font-work-sans",
     subsets: ["latin"],
+    display: "swap",
+    preload: true,
+    adjustFontFallback: true,
 });
 
 const ankish = localFont({
     src: "./font/ANKISH-V2.otf",
     variable: "--font-ankish",
     display: "swap",
+    preload: true, // Preload since it's used in hero section (above fold)
+    fallback: ["system-ui", "arial"],
 });
 
 const crustAce = localFont({
     src: "./font/FTCrustAce-FREE.otf",
     variable: "--font-crustace",
     display: "swap",
+    preload: false,
+    fallback: ["system-ui", "arial"],
 });
 
 export const metadata: Metadata = {

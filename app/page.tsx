@@ -174,7 +174,7 @@ export default function LandingPage() {
                 >
                     <div
                         onClick={(e) => e.stopPropagation()}
-                        className={`w-full flex flex-col bg-background max-w-[350px] md:max-w-[750px] h-full max-h-[90vh] rounded-2xl shadow-2xl border border-background2 p-4 overflow-hidden transition-all duration-500 ease-in-out ${
+                        className={`w-full flex flex-col bg-background max-w-[350px] md:max-w-[750px] h-full max-h-[90vh] rounded-2xl shadow-2xl border border-background2 p-2 md:p-4 overflow-hidden transition-all duration-500 ease-in-out ${
                             isVisible
                                 ? "scale-100 translate-y-0"
                                 : "scale-95 translate-y-4"
@@ -190,10 +190,6 @@ export default function LandingPage() {
                                             width={750}
                                             height={250}
                                             className="w-full h-[250px] object-cover rounded-sm"
-                                            style={{
-                                                width: "100%",
-                                                height: "250px",
-                                            }}
                                             priority
                                         />
                                         <button
@@ -206,16 +202,16 @@ export default function LandingPage() {
                                     <div className="flex flex-col gap-4 pb-10">
                                         <div className="flex flex-col gap-4">
                                             <div className="flex justify-between items-center pr-1">
-                                                <h3 className="text-3xl md:text-4xl font-medium">
+                                                <h3 className="text-2xl md:text-4xl font-medium">
                                                     {selectedProject.title}
                                                 </h3>
-                                                <div className="p-2 px-3 text-sm bg-background1 rounded-lg w-fit h-fit">
+                                                <div className="p-2 px-3 text-xs md:text-sm bg-background1 rounded-lg w-fit h-fit">
                                                     <p>
                                                         {selectedProject.year}
                                                     </p>
                                                 </div>
                                             </div>
-                                            <p className="text-sm font-medium md:w-[95%] md:pl-2 leading-relaxed">
+                                            <p className="text-xs md:text-sm font-medium md:w-[95%] md:pl-2 leading-relaxed">
                                                 {selectedProject.description}
                                             </p>
                                         </div>
@@ -232,7 +228,7 @@ export default function LandingPage() {
                                                             alt={`Skill ${skillIdx}`}
                                                             width={30}
                                                             height={30}
-                                                            className="w-12 h-12"
+                                                            className="w-8 h-8 md:w-12 md:h-12"
                                                         />
                                                     )
                                                 )}
@@ -685,7 +681,7 @@ export default function LandingPage() {
                                             startup team at <br />{" "}
                                             <Link
                                                 href="https://auraprestigetech.com/"
-                                                className="font-ankish cursor-pointer underline-offset-4"
+                                                className="font-ankish cursor-pointer hover:undercline hover:text-foreground1"
                                             >
                                                 @aura_prestige_tech
                                             </Link>
@@ -1096,7 +1092,7 @@ export default function LandingPage() {
                                                         width={430}
                                                         height={300}
                                                         priority
-                                                        className="w-auto h-auto hover:scale-105 transition-all duration-500 ease-in-out object-cover"
+                                                        className="w-full h-[300px] hover:scale-105 transition-all duration-500 ease-in-out object-cover"
                                                     />
                                                 </div>
                                                 <div className="w-full flex flex-col gap-3">
@@ -1199,11 +1195,17 @@ export default function LandingPage() {
                                 splitType="words"
                             />
                         </div>
-                        <SpinWord
-                            text="✦"
-                            className="grid h-15 mt-10 place-items-center text-6xl md:text-8xl lg:text-9xl leading-none md:mr-40 lg:mr-60 text-foreground-title"
-                            duration={7}
-                        />
+                        <AnimatedContent
+                            direction="vertical"
+                            duration={0.9}
+                            delay={0.2}
+                        >
+                            <SpinWord
+                                text="✦"
+                                className="grid h-15 mt-10 place-items-center text-6xl md:text-8xl lg:text-9xl leading-none md:mr-40 lg:mr-60 text-foreground-title"
+                                duration={7}
+                            />
+                        </AnimatedContent>
                     </div>
                     <div className="bg-background4 w-full py-15 flex items-center justify-center">
                         <form
