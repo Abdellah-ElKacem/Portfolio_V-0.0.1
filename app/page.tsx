@@ -7,8 +7,8 @@ import { Sun, Moon, Mouse, X } from "lucide-react";
 import TextType from "@/components/TextType";
 import CircularText from "@/components/CircularText";
 import Magnet from "@/components/Magnet";
-import me_1 from "@/images/me_1.jpeg";
-import me_2 from "@/images/me_2.jpeg";
+import me_1 from "@/images/photo main.jpg";
+import me_3 from "@/images/photo.jpeg";
 import SplitText from "@/components/SplitText";
 import ScrollReveal from "@/components/ScrollReveal";
 import AnimatedContent from "@/components/AnimatedContent";
@@ -220,18 +220,44 @@ export default function LandingPage() {
                                                 Technologies & Skills
                                             </span>
                                             <div className="flex gap-5 pl-2 flex-wrap md:w-[75%]">
-                                                {selectedProject.skills.map(
-                                                    (skill, skillIdx) => (
-                                                        <Image
-                                                            key={skillIdx}
-                                                            src={skill}
-                                                            alt={`Skill ${skillIdx}`}
-                                                            width={30}
-                                                            height={30}
-                                                            className="w-8 h-8 md:w-12 md:h-12"
-                                                        />
-                                                    )
-                                                )}
+                                            {selectedProject.skills.map(
+                                                (skill, skillIdx) => {
+                                                    const skillNames: Record<string, string> = {
+                                                        "/html.svg":       "HTML",
+                                                        "/css.svg":        "CSS",
+                                                        "/talwindcss.svg": "Tailwind CSS",
+                                                        "/typescript.svg": "TypeScript",
+                                                        "/javascript.svg": "JavaScript",
+                                                        "/react.svg":      "React",
+                                                        "/nextjs.svg":     "Next.js",
+                                                        "/figma.svg":      "Figma",
+                                                        "/ps.svg":         "Photoshop",
+                                                        "/ai.svg":         "Illustrator",
+                                                        "/firbase.svg":    "Firebase",
+                                                        "/github.svg":     "GitHub",
+                                                        "/graphql.svg":    "GraphQL",
+                                                        "/py.svg":         "Python",
+                                                        "/django.svg":     "Django",
+                                                        "/postgre.svg":    "PostgreSQL",
+                                                        "/docker.svg":     "Docker",
+                                                    };
+                                                    const name = skillNames[skill] ?? skill.replace("/", "").replace(".svg", "");
+                                                    return (
+                                                        <div key={skillIdx} className="relative group/skill flex flex-col items-center">
+                                                            <Image
+                                                                src={skill}
+                                                                alt={name}
+                                                                width={30}
+                                                                height={30}
+                                                                className="w-8 h-8 md:w-12 md:h-12 transition-transform duration-200 group-hover/skill:scale-110"
+                                                            />
+                                                            <span className="pointer-events-none absolute -bottom-5 left-1/2 whitespace-nowrap rounded-md bg-background px-2 py-1 text-xs text-foreground-title opacity-0 transition-opacity duration-200 group-hover/skill:opacity-100">
+                                                                {name}
+                                                            </span>
+                                                        </div>
+                                                    );
+                                                }
+                                            )}
                                             </div>
                                         </div>
                                     </div>
@@ -389,20 +415,24 @@ export default function LandingPage() {
                             />
                         )}
                     </a>
-                    <a href="#about" className="hidden md:inline-block">
-                        ABOUT
+                    <a href="#about" className="hidden md:inline-block group relative overflow-hidden">
+                        <span className="flex transition-transform duration-300 group-hover:translate-y-full">ABOUT</span>
+                        <span className="absolute inset-0 flex -translate-y-full transition-transform duration-300 group-hover:translate-y-0">ABOUT</span>
                     </a>
-                    <a href="#skills" className="hidden md:inline-block">
-                        SKILLS
+                    <a href="#skills" className="hidden md:inline-block group relative overflow-hidden">
+                        <span className="flex transition-transform duration-300 group-hover:translate-y-full">SKILLS</span>
+                        <span className="absolute inset-0 flex -translate-y-full transition-transform duration-300 group-hover:translate-y-0">SKILLS</span>
                     </a>
-                    <a href="#projects" className="hidden md:inline-block">
-                        PROJECTS
+                    <a href="#projects" className="hidden md:inline-block group relative overflow-hidden">
+                        <span className="flex transition-transform duration-300 group-hover:translate-y-full">PROJECTS</span>
+                        <span className="absolute inset-0 flex -translate-y-full transition-transform duration-300 group-hover:translate-y-0">PROJECTS</span>
                     </a>
                     <a
                         href="#contact"
-                        className="px-4 py-2 border-2 rounded-full border-foreground bg-background1 text-nowrap hidden md:inline-block"
+                        className="group relative px-4 py-2 border-2 rounded-full border-foreground bg-background1 text-nowrap hidden md:inline-flex overflow-hidden"
                     >
-                        LET'S TALK
+                        <span className="flex transition-transform duration-300 group-hover:translate-y-full">LET'S TALK</span>
+                        <span className="absolute inset-0 flex items-center justify-center -translate-y-full transition-transform duration-300 group-hover:translate-y-0">LET'S TALK</span>
                     </a>
                     <div className="md:flex gap-2 items-center hidden">
                         <button
@@ -446,7 +476,7 @@ export default function LandingPage() {
             <section className="flex flex-col items-center w-full gap-4">
                 <section
                     id="home"
-                    className=" flex flex-col md:h-screen justify-between w-full max-w-[1536px] px-6"
+                    className=" flex flex-col md:min-h-[1000px] justify-between w-full max-w-[1536px] px-6"
                 >
                     <div className="flex flex-col">
                         <h1 className="font-ankish pt-20 md:pt-34 font-bold text-center mx-auto w-full tracking-wide leading-[.9] text-6xl sm:text-9xl md:text-[140px] lg:text-[180px] xl:text-[230px] 2xl:text-[250px] bg-[linear-gradient(to_bottom,var(--color-foreground1-16),transparent)] [-webkit-mask-image:linear-gradient(to_bottom,black_%,transparent_100%)] bg-clip-text text-transparent">
@@ -491,43 +521,55 @@ export default function LandingPage() {
                                 </p>
                                 <div className="flex gap-3 pt-4 text-foreground-title1 text-xs md:text-base items-start">
                                     <span className=" font-semibold">
-                                        Follow Me —{" "}
+                                        Follow Me {" "} —{" "}
                                     </span>
                                     <div className="flex gap-3">
-                                        <a href="https://x.com/kacem_abdellah">
+                                        <a
+                                            href="https://x.com/kacem_abdellah"
+                                            className="transition-transform duration-200 hover:scale-125 hover:text-[#000000] dark:hover:text-[#ffffff] hover:rotate-[-10deg] inline-block"
+                                        >
                                             <FontAwesomeIcon
                                                 icon={faXTwitter}
                                                 size="lg"
                                             />
                                         </a>
-                                        <a href="https://www.instagram.com/abdellah_elkacem/">
-                                            <FontAwesomeIcon
-                                                icon={faInstagram}
-                                                size="lg"
-                                            />
-                                        </a>
-                                        <a href="https://www.linkedin.com/in/abdellah-el-kacem/">
+                                        <a
+                                            href="https://www.linkedin.com/in/abdellah-el-kacem/"
+                                            className="transition-transform duration-200 hover:scale-125 hover:text-[#0A66C2] hover:rotate-[10deg] inline-block"
+                                        >
                                             <FontAwesomeIcon
                                                 icon={faLinkedinIn}
                                                 size="lg"
                                             />
                                         </a>
-                                        <a href="https://www.behance.net/abdellahelkacem">
+                                        <a
+                                            href="https://www.instagram.com/abdellah_elkacem/"
+                                            className="transition-transform duration-200 hover:scale-125 hover:text-[#E1306C] hover:rotate-[-10deg] inline-block"
+                                        >
+                                            <FontAwesomeIcon
+                                                icon={faInstagram}
+                                                size="lg"
+                                            />
+                                        </a>
+                                        <a
+                                            href="https://www.behance.net/abdellahelkacem"
+                                            className="transition-transform duration-200 hover:scale-125 hover:text-[#1769FF] hover:rotate-[10deg] inline-block"
+                                        >
                                             <FontAwesomeIcon
                                                 icon={faBehance}
                                                 size="lg"
                                             />
                                         </a>
                                     </div>
-                                    <div className="font-semibold group">
+                                    <div className="font-semibold group ">
                                         <a
                                             href="/resume"
                                             download
-                                            className="block"
+                                            className="inline-block transition-all duration-200 hover:scale-102 hover:-rotate-3 hover:text-[#ffa958]"
                                         >
                                             Download Resume
                                         </a>
-                                        <div className="h-1 mt-px w-0 group-hover:w-full bg-foreground1 transition-all duration-450 origin-left" />
+                                        <div className="h-0.5 mt-px w-0 group-hover:w-[120px] bg-[#ffa958] transition-all duration-200 origin-left group-hover:scale-110 group-hover:-rotate-3" />
                                     </div>
                                 </div>
                             </div>
@@ -538,7 +580,7 @@ export default function LandingPage() {
                                     <div className="bg-foreground-title1 rounded-[100%] w-25 h-70 md:w-30 md:h-100 xl:w-35 xl:h-110" />
                                     <div className="relative bg-[#274546] z-10 rounded-full w-55 h-90 md:w-85 md:h-130 xl:w-90 xl:h-140 overflow-hidden">
                                         <Image
-                                            src={me_1}
+                                            src={me_3}
                                             alt="Me"
                                             placeholder="blur"
                                             className="w-full h-full object-cover hover:scale-105 transition-all duration-300"
@@ -547,18 +589,18 @@ export default function LandingPage() {
                                     </div>
                                     <div className="bg-foreground-title1 rounded-[100%] w-[12%] h-70 md:w-10 md:h-100 xl:w-20 xl:h-110" />
                                 </div>
-                                <span className="text-foreground-title1 self-end text-3xl md:text-[40px] lg:text-5xl xl:text-6xl font-crust -rotate-15 pr-7">
-                                    kacimo
+                                <span className="group self-end text-3xl md:text-[40px] lg:text-5xl xl:text-6xl font-crust -rotate-15 pr-7 cursor-default inline-flex">
+                                    Kacimo
                                 </span>
                             </div>
                         </div>
                     </div>
-                    <div className="flex font-ankish justify-between items-center gap-3 text-lg md:text-4xl">
+                    <div className="flex font-ankish justify-between items-center gap-3 text-lg md:text-4xl md:pt-20">
                         <div>
                             <span className="text-sm md:text-2xl font-bold">
                                 ©
                             </span>
-                            2025
+                            {new Date().getFullYear()}
                         </div>
                         <Magnet
                             padding={150}
@@ -595,10 +637,10 @@ export default function LandingPage() {
                     </div>
                 </section>
                 <section
-                    className="relative flex flex-col justify-center items-center w-full -scroll-mt-[50px]"
+                    className="relative flex flex-col justify-center items-center w-full -scrosll-mt-[50px]"
                     id="about"
                 >
-                    <div className="relative flex flex-col justify-around w-full gap-3 md:h-screen max-w-[1536px] p-6">
+                    <div className="relative flex flex-col justify-around w-full gap-3 max-w-[1536px] p-6">
                         <div className="flex flex-col lg:flex-row justify-between items-start">
                             <div className="flex -space-x-17 pt-6">
                                 <AnimatedContent
@@ -656,8 +698,8 @@ export default function LandingPage() {
                                 </ScrollReveal>
                             </div>
                         </div>
-                        <div className="flex flex-col lg:flex-row justify-center lg:items-end gap-6">
-                            <div className="flex flex-col md:flex-row gap-17 md:gap-5 md:items-end">
+                        <div className="flex flex-col lg:flex-row justify-center lg:items-end gap-9">
+                            <div className="flex flex-col md:flex-row gap-17 md:gap-9 md:items-end">
                                 <AnimatedContent
                                     distance={30}
                                     direction="vertical"
@@ -673,18 +715,15 @@ export default function LandingPage() {
                                     <div className="font-medium text-sm">
                                         <p>
                                             Design <br /> by{" "}
-                                            <span className="font-crust">
-                                                Kacimo
+                                            <span className="group font-crust inline-flex cursor-default">
+                                                <span className="text-foreground-title1 transition-colors duration-300 group-hover:text-[#ffa958]" style={{ transitionDelay: "0ms"   }}>K</span>
+                                                <span className="text-foreground-title1 transition-colors duration-300 group-hover:text-[#E1306C]" style={{ transitionDelay: "60ms"  }}>a</span>
+                                                <span className="text-foreground-title1 transition-colors duration-300 group-hover:text-[#A855F7]" style={{ transitionDelay: "120ms" }}>c</span>
+                                                <span className="text-foreground-title1 transition-colors duration-300 group-hover:text-[#0A66C2]" style={{ transitionDelay: "180ms" }}>i</span>
+                                                <span className="text-foreground-title1 transition-colors duration-300 group-hover:text-[#10B981]" style={{ transitionDelay: "240ms" }}>m</span>
+                                                <span className="text-foreground-title1 transition-colors duration-300 group-hover:text-[#ffa958]" style={{ transitionDelay: "300ms" }}>o</span>
                                             </span>{" "}
-                                            a designer <br /> based in El
-                                            Jadida, currently <br /> part of
-                                            startup team at <br />{" "}
-                                            <Link
-                                                href="https://auraprestigetech.com/"
-                                                className="font-ankish cursor-pointer hover:undercline hover:text-foreground1"
-                                            >
-                                                @aura_prestige_tech
-                                            </Link>
+                                            a designer <br /> based in El Jadida
                                         </p>
                                     </div>
                                 </AnimatedContent>
@@ -702,7 +741,7 @@ export default function LandingPage() {
                                         delay={0.4}
                                     >
                                         <Image
-                                            src={me_2}
+                                            src={me_1}
                                             alt="Abdellah El Kacem"
                                             width={300}
                                             className="rounded-lg shadow-2xl"
@@ -729,7 +768,7 @@ export default function LandingPage() {
                             </div>
                         </div>
                     </div>
-                    <div className="absolute -bottom-115 md:-bottom-150 lg:-bottom-130 text-foreground1 w-full z-[-1]">
+                    <div className="text-foreground1 w-full z-[-1]">
                         <CurvedLoop
                             marqueeText="illustration  ✦  DEVELOPEMENT  ✦  LANDING PAGE  ✦  LOGO CREATOR  ✦  UI/UX designer  ✦  wireframe  ✦  BRANDING IDENTITY  ✦  "
                             speedDesktop={0.5}
@@ -742,10 +781,10 @@ export default function LandingPage() {
                     </div>
                 </section>
                 <section
-                    className="w-full flex flex-col items-center mt-20 gap-20 p-6 scroll-mt-[12d0px]"
+                    className="w-full flex flex-col items-center mtx-20 gap-20 p-6"
                     id="skills"
                 >
-                    <div className="flex flex-col md:h-screen w-full max-w-[1536px]">
+                    <div className="flex flex-col md:min-h-[1000px] w-full max-w-[1536px]">
                         <div className="flex -space-x-17 pt-6 flex-1">
                             <AnimatedContent
                                 direction="vertical"
@@ -1641,7 +1680,7 @@ export default function LandingPage() {
                                 </div>
                             </nav>
                             <span className="text-[11px] text-foreground-title1 ">
-                                © 2025 Abdellah El Kacem, All rights reserved.
+                                © {new Date().getFullYear()} Abdellah El Kacem, All rights reserved.
                             </span>
                         </div>
                     </div>
