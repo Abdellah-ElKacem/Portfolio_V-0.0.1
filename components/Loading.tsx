@@ -3,7 +3,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { gsap } from "gsap";
 
-const Loading: React.FC = () => {
+interface LoadingProps {
+    onComplete?: () => void;
+}
+
+const Loading: React.FC<LoadingProps> = ({ onComplete }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [percentage, setPercentage] = useState(0);
     const loadingRef = useRef<HTMLDivElement>(null);
@@ -12,6 +16,16 @@ const Loading: React.FC = () => {
     const progressLayer2Ref = useRef<HTMLDivElement>(null);
     const progressLayer3Ref = useRef<HTMLDivElement>(null);
     const numberRef = useRef<HTMLDivElement>(null);
+
+    // Prevent scrolling while loading
+    useEffect(() => {
+        if (isLoading) {
+            document.documentElement.classList.add("no-scroll");
+            document.body.classList.add("no-scroll");
+            document.documentElement.style.overflow = "hidden";
+            document.body.style.overflow = "hidden";
+        }
+    }, [isLoading]);
 
     useEffect(() => {
         // Small delay to ensure refs are set and DOM is ready
@@ -203,6 +217,7 @@ const Loading: React.FC = () => {
         const tl = gsap.timeline({
             onComplete: () => {
                 setIsLoading(false);
+                onComplete?.();
             },
         });
 
@@ -240,7 +255,7 @@ const Loading: React.FC = () => {
     return (
         <div
             ref={loadingRef}
-            className="fixed inset-0 z-[9999] bg-background flex flex-col items-center justify-center overflow-hidden"
+            className="fixed inset-0 z-[9999] bg-background flex flex-col items-center justify-center overflow-hidden touch-none select-none overscroll-none"
         >
             {/* 3 Color Layers filling the entire page from bottom to top */}
             {/* Layer 1: First color (bottom layer) */}

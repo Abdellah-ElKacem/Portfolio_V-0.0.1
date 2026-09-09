@@ -1,6 +1,14 @@
 import { StaticImageData } from "next/image";
 import Domicilia from "@/images/domicilia_moke_up.png";
 import Portfolio from "@/images/portfolio_moke_up.png";
+import Hypertube1 from "@/images/hyper1.jpg";
+import Hypertube2 from "@/images/Hyper2.jpg";
+import Hypertube3 from "@/images/Hyper3.jpg";
+import Hypertube4 from "@/images/Hyper4.jpg";
+import Hypertube5 from "@/images/Hyper5.jpg";
+import Hypertube6 from "@/images/Hyper6.jpg";
+import Hypertube7 from "@/images/Hyper7.jpg";
+import Hypertube8 from "@/images/Hyper8.jpg";
 import AuraPrestigeTech from "@/images/web_aura_moke_up.png";
 import AdminPanelDomicilia from "@/images/admin_panel_moke_up.png";
 import FtTranscendance from "@/images/Transcendance_moke_up.png";
@@ -9,7 +17,7 @@ import Virtus from "@/images/Vertus_Platrorm_moke_up.png";
 
 export interface ProjectItem {
     id: number;
-    image: StaticImageData;
+    image: StaticImageData[];
     title: string;
     year: string;
     description: string;
@@ -21,7 +29,28 @@ export interface ProjectItem {
 const listProject: ProjectItem[] = [
     {
         id: 1,
-        image: Portfolio,
+        image: [Hypertube1, Hypertube2, Hypertube3, Hypertube4, Hypertube5, Hypertube6, Hypertube7, Hypertube8],
+        title: "Hypertube",
+        year: "2026",
+        description:
+            "Hypertube: A state-of-the-art streaming platform where I led the UX/UI design and front-end development. My work focused on creating a modern, intuitive user experience for exploring a massive catalog of films and series, translating high-fidelity designs into a responsive, highly performant interface. The platform is optimized for seamless navigation and smooth content discovery, showcasing strong capabilities in interface design, modern animation, and front-end execution for streaming services.",
+        skills: [
+            "/html.svg",
+            "/css.svg",
+            "/talwindcss.svg",
+            "/typescript.svg",
+            "/react.svg",
+            "/nextjs.svg",
+            "/expressjs.svg",
+            "/figma.svg",
+            "/ps.svg",
+            "/ai.svg",
+        ],
+        tags: ["Website", "Front-end", "UI/UX Design", "Platform", "Streaming"],
+    },
+    {
+        id: 2,
+        image: [Portfolio],
         title: "Portfolio",
         year: "2025",
         description:
@@ -41,8 +70,8 @@ const listProject: ProjectItem[] = [
         url: "https://www.kacimo.me",
     },
     {
-        id: 2,
-        image: AuraPrestigeTech,
+        id: 3,
+        image: [AuraPrestigeTech],
         title: "Aura Prestige Tech",
         year: "2025",
         description:
@@ -70,8 +99,8 @@ const listProject: ProjectItem[] = [
         url: "https://auraprestigetech.com",
     },
     {
-        id: 3,
-        image: Domicilia,
+        id: 4,
+        image: [Domicilia],
         title: "Domicilia",
         year: "2025",
         description:
@@ -80,8 +109,8 @@ const listProject: ProjectItem[] = [
         tags: ["Application Mobile", "UI/UX Design"],
     },
     {
-        id: 4,
-        image: AdminPanelDomicilia,
+        id: 5,
+        image: [AdminPanelDomicilia],
         title: "Admin Panel Domicilia",
         year: "2025",
         description:
@@ -103,8 +132,8 @@ const listProject: ProjectItem[] = [
         tags: ["Website", "UI/UX Design", "Web Development", "Platform", "Admin Panel"],
     },
     {
-        id: 5,
-        image: FtTranscendance,
+        id: 6,
+        image: [FtTranscendance],
         title: "Ft_Transcendance",
         year: "2024",
         description:
@@ -135,8 +164,8 @@ const listProject: ProjectItem[] = [
         url: "https://www.behance.net/gallery/209703901/PingPong-Project-ft_transcendence-WebSite-UIUX",
     },
     {
-        id: 6,
-        image: MGHUnivers,
+        id: 7,
+        image: [MGHUnivers],
         title: "MGH Univers",
         year: "2024",
         description:
@@ -161,8 +190,8 @@ const listProject: ProjectItem[] = [
         url: "https://mgh-univers-website.vercel.app/",
     },
     {
-        id: 7,
-        image: Virtus,
+        id: 8,
+        image: [Virtus],
         title: "Virtus",
         year: "2024",
         description:

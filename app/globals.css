@@ -145,11 +145,8 @@ html {
 }
 .no-scroll {
     /* Prevents scrolling */
-    overflow: hidden;
-
-    /* Important: This compensates for the scrollbar disappearing, 
-     preventing the main content from shifting horizontally. */
-    /* padding-right: 15px; */
+    overflow: hidden !important;
+    overscroll-behavior: none;
 }
 .hide-scrollbar {
     -ms-overflow-style: none; /* IE and Edge */
