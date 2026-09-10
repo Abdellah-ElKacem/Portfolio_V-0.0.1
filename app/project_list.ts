@@ -161,7 +161,7 @@ const listProject: ProjectItem[] = [
             "Game Platform",
             "Pong Game",
         ],
-        url: "https://www.behance.net/gallery/209703901/PingPong-Project-ft_transcendence-WebSite-UIUX",
+        url: "https://dribbble.com/shots/27720671-UX-UI-Design-of-Ping-Pong-Platform",
     },
     {
         id: 7,

@@ -6,6 +6,7 @@ import {
   faBehance,
   faInstagram,
   faLinkedinIn,
+  faDribbble
 } from "@fortawesome/free-brands-svg-icons";
 import { Mouse } from "lucide-react";
 import me_3 from "@/images/photo.jpeg";
@@ -67,28 +68,28 @@ export default function HeroSection({ theme }: HeroSectionProps) {
               <span className=" font-semibold">Follow Me — </span>
               <div className="flex gap-3">
                 <a
-                  href="https://x.com/kacem_abdellah"
-                  className="transition-transform duration-200 hover:scale-125 hover:text-[#000000] dark:hover:text-[#ffffff] hover:rotate-[-10deg] inline-block"
-                >
-                  <FontAwesomeIcon icon={faXTwitter} size="lg" />
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/abdellah-el-kacem/"
-                  className="transition-transform duration-200 hover:scale-125 hover:text-[#0A66C2] hover:rotate-[10deg] inline-block"
-                >
-                  <FontAwesomeIcon icon={faLinkedinIn} size="lg" />
-                </a>
-                <a
                   href="https://www.instagram.com/abdellah_elkacem/"
                   className="transition-transform duration-200 hover:scale-125 hover:text-[#E1306C] hover:rotate-[-10deg] inline-block"
                 >
                   <FontAwesomeIcon icon={faInstagram} size="lg" />
                 </a>
                 <a
-                  href="https://www.behance.net/abdellahelkacem"
-                  className="transition-transform duration-200 hover:scale-125 hover:text-[#1769FF] hover:rotate-[10deg] inline-block"
+                  href="https://x.com/kacem_abdellah"
+                  className="transition-transform duration-200 hover:scale-125 hover:text-[#000000] dark:hover:text-[#ffffff] hover:rotate-[10deg] inline-block"
                 >
-                  <FontAwesomeIcon icon={faBehance} size="lg" />
+                  <FontAwesomeIcon icon={faXTwitter} size="lg" />
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/abdellah-el-kacem/"
+                  className="transition-transform duration-200 hover:scale-125 hover:text-[#0A66C2] hover:rotate-[-10deg] inline-block"
+                >
+                  <FontAwesomeIcon icon={faLinkedinIn} size="lg" />
+                </a>
+                <a
+                  href="https://dribbble.com/Kaciimo"
+                  className="transition-transform duration-200 hover:scale-125 hover:text-[#ea4c89] hover:rotate-[10deg] inline-block"
+                >
+                  <FontAwesomeIcon icon={faDribbble} size="lg" />
                 </a>
               </div>
               <div className="font-semibold group ">

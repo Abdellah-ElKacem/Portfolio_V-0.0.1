@@ -12,6 +12,7 @@ import shape4_dark from "@/public/shape4_dark.svg";
 import SplitText from "@/components/SplitText";
 import AnimatedContent from "@/components/AnimatedContent";
 import SpinWord from "@/components/SpinWord";
+import GradientWaves from "../GradientWaves";
 
 interface FooterSectionProps {
   theme: string | null;
@@ -19,33 +20,97 @@ interface FooterSectionProps {
 
 export default function FooterSection({ theme }: FooterSectionProps) {
   return (
-    <section className="w-full flex flex-col items-center">
+    <section className="relative w-full flex flex-col items-center">
+      <div className="absolute top-0 left-0 w-full h-full z-0">
+        <GradientWaves
+          horizonColor="#344f5a"
+          waveColor="#132517"
+          crestColor="#908484"
+          speed={0.4}
+          amplitude={3}
+          waveScale={1}
+          waveRatio={0.9}
+          swell={14}
+          turbulence={26.5}
+          tilt={1.11}
+          zoom={1}
+          height={5.5}
+          fogDepth={15}
+          detail="high"
+          brightness={1}
+          opacity={1}
+          mouseInteraction={true}
+          parallaxStrength={4.5}
+          grain
+          grainIntensity={0.05}
+        />
+      </div>
       <div className="w-full relative max-w-[1536px] flex flex-col gap-2 justify-between items-center p-6">
         <div className="w-full flex flex-col items-center gap-5 md:gap-10 py-15 pb-40">
           <div className=" w-full flex justify-between items-center px-2 max-w-[550px] md:max-w-[750px] lg:max-w-[950px]">
             {theme === "dark" ? (
               <div className=" w-full flex justify-between items-center px-2 max-w-[550px] md:max-w-[750px] lg:max-w-[950px]">
-                <AnimatedContent distance={30} direction="vertical" reverse={false} duration={0.9} delay={0.2}>
+                <AnimatedContent
+                  distance={30}
+                  direction="vertical"
+                  reverse={false}
+                  duration={0.9}
+                  delay={0.2}
+                >
                   <SpinWord duration={6}>
-                    <Image src={shape1_dark} alt="shape1_dark" className="hover:scale-125 transition-all duration-300" />
+                    <Image
+                      src={shape1_dark}
+                      alt="shape1_dark"
+                      className="hover:scale-125 transition-all duration-300"
+                    />
                   </SpinWord>
                 </AnimatedContent>
-                <AnimatedContent distance={30} direction="vertical" reverse={false} duration={0.9} delay={0.4}>
+                <AnimatedContent
+                  distance={30}
+                  direction="vertical"
+                  reverse={false}
+                  duration={0.9}
+                  delay={0.4}
+                >
                   <SpinWord duration={6}>
-                    <Image src={shape2_dark} alt="shape2_dark" className="hover:scale-125 transition-all duration-300" />
+                    <Image
+                      src={shape2_dark}
+                      alt="shape2_dark"
+                      className="hover:scale-125 transition-all duration-300"
+                    />
                   </SpinWord>
                 </AnimatedContent>
               </div>
             ) : (
               <div className=" w-full flex justify-between items-center px-2 max-w-[550px] md:max-w-[750px] lg:max-w-[950px]">
-                <AnimatedContent distance={30} direction="vertical" reverse={false} duration={0.9} delay={0.2}>
+                <AnimatedContent
+                  distance={30}
+                  direction="vertical"
+                  reverse={false}
+                  duration={0.9}
+                  delay={0.2}
+                >
                   <SpinWord duration={6}>
-                    <Image src={shape1_light} alt="shape1_light" className="hover:scale-125 transition-all duration-300" />
+                    <Image
+                      src={shape1_light}
+                      alt="shape1_light"
+                      className="hover:scale-125 transition-all duration-300"
+                    />
                   </SpinWord>
                 </AnimatedContent>
-                <AnimatedContent distance={30} direction="vertical" reverse={false} duration={0.9} delay={0.4}>
+                <AnimatedContent
+                  distance={30}
+                  direction="vertical"
+                  reverse={false}
+                  duration={0.9}
+                  delay={0.4}
+                >
                   <SpinWord duration={6}>
-                    <Image src={shape2_light} alt="shape2_light" className="hover:scale-125 transition-all duration-300" />
+                    <Image
+                      src={shape2_light}
+                      alt="shape2_light"
+                      className="hover:scale-125 transition-all duration-300"
+                    />
                   </SpinWord>
                 </AnimatedContent>
               </div>
@@ -59,27 +124,68 @@ export default function FooterSection({ theme }: FooterSectionProps) {
           />
           {theme === "dark" ? (
             <div className="w-full flex justify-between items-center max-w-[550px] md:max-w-[750px] lg:max-w-[950px] px-6 md:px-25">
-              <AnimatedContent distance={30} direction="vertical" reverse={false} duration={0.9} delay={0.6}>
+              <AnimatedContent
+                distance={30}
+                direction="vertical"
+                reverse={false}
+                duration={0.9}
+                delay={0.6}
+              >
                 <SpinWord duration={6}>
-                  <Image src={shape3_dark} alt="shape3_dark" className="hover:scale-125 transition-all duration-300" />
+                  <Image
+                    src={shape3_dark}
+                    alt="shape3_dark"
+                    className="hover:scale-125 transition-all duration-300"
+                  />
                 </SpinWord>
               </AnimatedContent>
-              <AnimatedContent distance={30} direction="vertical" reverse={false} duration={0.9} delay={0.8}>
+              <AnimatedContent
+                distance={30}
+                direction="vertical"
+                reverse={false}
+                duration={0.9}
+                delay={0.8}
+              >
                 <SpinWord duration={6}>
-                  <Image src={shape4_dark} alt="shape4_dark" className="hover:scale-125 transition-all duration-300" />
+                  <Image
+                    src={shape4_dark}
+                    alt="shape4_dark"
+                    className="hover:scale-125 transition-all duration-300"
+                  />
                 </SpinWord>
               </AnimatedContent>
             </div>
           ) : (
             <div className="w-full flex justify-between items-center max-w-[550px] md:max-w-[750px] lg:max-w-[950px] px-6 md:px-25">
-              <AnimatedContent distance={30} direction="vertical" reverse={false} duration={0.9} delay={0.6}>
+              <AnimatedContent
+                distance={30}
+                direction="vertical"
+                reverse={false}
+                duration={0.9}
+                delay={0.6}
+              >
                 <SpinWord duration={6}>
-                  <Image src={shape3_light} alt="shape3_light" className="hover:scale-125 transition-all duration-300" />
+                  <Image
+                    src={shape3_light}
+                    alt="shape3_light"
+                    className="hover:scale-125 transition-all duration-300"
+                  />
                 </SpinWord>
               </AnimatedContent>
-              <AnimatedContent distance={30} direction="vertical" reverse={false} duration={0.9} delay={0.8}>
+              <AnimatedContent
+                distance={30}
+                direction="vertical"
+                reverse={false}
+                duration={0.9}
+                delay={0.8}
+              >
                 <SpinWord duration={6}>
-                  <Image src={shape4_light} alt="shape4_light" className="hover:scale-125 transition-all duration-300" width={100} />
+                  <Image
+                    src={shape4_light}
+                    alt="shape4_light"
+                    className="hover:scale-125 transition-all duration-300"
+                    width={100}
+                  />
                 </SpinWord>
               </AnimatedContent>
             </div>
@@ -92,9 +198,21 @@ export default function FooterSection({ theme }: FooterSectionProps) {
             <div className="flex items-center md:items-start gap-4 md:gap-6 flex-col md:flex-row text-sm">
               <a href="#home" className="sm:w-auto md:max-w-[120px]">
                 {theme === "dark" ? (
-                  <Image src="/logo_aek1.svg" alt="Logo" width={50} height={50} className="w-auto h-auto" />
+                  <Image
+                    src="/logo_aek1.svg"
+                    alt="Logo"
+                    width={50}
+                    height={50}
+                    className="w-auto h-auto"
+                  />
                 ) : (
-                  <Image src="/logo_aek.svg" alt="Logo" width={50} height={50} className="w-auto h-auto" />
+                  <Image
+                    src="/logo_aek.svg"
+                    alt="Logo"
+                    width={50}
+                    height={50}
+                    className="w-auto h-auto"
+                  />
                 )}
               </a>
               <div className="flex gap-4 md:gap-6 self-end">
