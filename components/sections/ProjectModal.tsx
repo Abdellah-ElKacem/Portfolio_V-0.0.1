@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { X, ArrowUpRight } from "lucide-react";
+import { X, ArrowUpRight, Github } from "lucide-react";
 import { ProjectItem } from "@/app/project_list";
 
 interface ProjectModalProps {
@@ -150,7 +150,8 @@ export default function ProjectModal({
                               width={30}
                               height={30}
                               className={`w-8 h-8 md:w-12 md:h-12 transition-transform duration-200 group-hover/skill:scale-110 ${
-                                skill.includes("express") || skill.includes("github")
+                                skill.includes("express") ||
+                                skill.includes("github")
                                   ? "dark:invert [html[data-theme='dark']_&]:invert"
                                   : ""
                               }`}
@@ -185,6 +186,17 @@ export default function ProjectModal({
                 >
                   Close
                 </button>
+                {selectedProject.githubUrl && (
+                  <button
+                    onClick={() =>
+                      window.open(selectedProject.githubUrl, "_blank")
+                    }
+                    className="p-2 px-6 text-sm bg-background3 rounded-lg text-background flex items-center gap-2 cursor-pointer"
+                  >
+                    <p>View Code Source</p>
+                    <Github size={18} />
+                  </button>
+                )}
                 {selectedProject.url ? (
                   <a
                     href={selectedProject.url}

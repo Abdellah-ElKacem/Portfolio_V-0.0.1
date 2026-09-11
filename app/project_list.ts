@@ -24,6 +24,7 @@ export interface ProjectItem {
     skills: string[];
     tags: string[];
     url?: string;
+    githubUrl?: string;
 }
 
 const listProject: ProjectItem[] = [
@@ -47,6 +48,8 @@ const listProject: ProjectItem[] = [
             "/ai.svg",
         ],
         tags: ["Website", "Front-end", "UI/UX Design", "Platform", "Streaming"],
+        url: "https://dribbble.com/shots/27723358-LeetStream-Movie-Streaming-Platform-Landing-Page",
+        githubUrl: "https://github.com/Abdellah-ElKacem/The-Hypertube",
     },
     {
         id: 2,
@@ -68,6 +71,7 @@ const listProject: ProjectItem[] = [
         ],
         tags: ["Website", "UI/UX Design", "Application Mobile"],
         url: "https://www.kacimo.me",
+        githubUrl: "https://github.com/Abdellah-ElKacem/Portfolio_V-0.0.1",
     },
     {
         id: 3,
