@@ -193,7 +193,7 @@ export default function ProjectModal({
                     }
                     className="p-2 px-6 text-sm bg-background3 rounded-lg text-background flex items-center gap-2 cursor-pointer"
                   >
-                    <p>View Code Source</p>
+                    <p className="hidden md:block">View Code Source</p>
                     <Github size={18} />
                   </button>
                 )}
