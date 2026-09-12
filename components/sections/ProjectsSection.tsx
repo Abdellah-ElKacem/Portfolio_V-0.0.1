@@ -373,7 +373,7 @@ export default function ProjectsSection({
           speed={6}
           textColor="var(--foreground)"
           bgColor="var(--background)"
-          marqueeBgColor="var(--foreground-title2)"
+          marqueeBgColor="var(--foreground)"
           marqueeTextColor="var(--background)"
           borderColor="var(--foreground1-16)"
         />

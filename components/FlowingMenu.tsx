@@ -218,8 +218,8 @@ const MenuItem: React.FC<MenuItemProps> = ({
         className="w-full h-full flex items-center justify-center"
       >
         <a
-          className={`flex items-center justify-center h-full w-full relative cursor-pointer uppercase no-underline tracking-wider font-ankish font-semibold text-[4vh] transition-transform duration-500 ${
-            isHovered ? 'scale-105' : 'scale-100'
+          className={`flex items-center justify-center h-full w-full relative cursor-pointer uppercase no-underline tracking-wider font-ankish font-semibold text-[4vh] transition-all duration-300 ${
+            isHovered ? 'opacity-0 scale-105 pointer-events-none' : 'opacity-100 scale-100'
           }`}
           href={link || '#'}
           onClick={handleClick}
@@ -229,9 +229,9 @@ const MenuItem: React.FC<MenuItemProps> = ({
         </a>
       </AnimatedContent>
       <div
-        className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none translate-y-[101%]"
+        className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none translate-y-[101%] z-10"
         ref={marqueeRef}
-        style={{ backgroundColor: marqueeBgColor }}
+        style={{ backgroundColor: marqueeBgColor || 'var(--foreground)' }}
       >
         <div className="h-full w-fit flex" ref={marqueeInnerRef}>
           {[...Array(repetitions)].map((_, idx) => (
