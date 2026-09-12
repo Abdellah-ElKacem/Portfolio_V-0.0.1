@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ProjectItem } from "@/app/project_list";
 import Loading from "@/components/Loading";
 import BubbleMenu from "@/components/BubbleMenu";
@@ -104,11 +104,12 @@ export default function LandingPage() {
         isOpen={isMenuOpen}
         onClose={() => setIsMenuOpen(!isMenuOpen)}
         menuItems={[
-          { label: "Home", number: "(01)", link: "#home" },
-          { label: "About", number: "(02)", link: "#about" },
-          { label: "Skills", number: "(03)", link: "#skills" },
-          { label: "Projects", number: "(04)", link: "#projects" },
-          { label: "Contact", number: "(05)", link: "#contact" },
+          { label: "Home", number: "(01)", link: "/#home" },
+          { label: "About", number: "(02)", link: "/#about" },
+          { label: "Skills", number: "(03)", link: "/#skills" },
+          { label: "Projects", number: "(04)", link: "/#projects" },
+          { label: "Gallery", number: "(05)", link: "/gallery" },
+          { label: "Contact", number: "(06)", link: "/#contact" },
         ]}
         theme={theme}
         onToggleTheme={toggleTheme}

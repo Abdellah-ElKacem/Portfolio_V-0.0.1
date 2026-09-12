@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, CircleArrowRight } from "lucide-react";
 import shape1_light from "@/public/shape1_light.svg";
 import shape2_light from "@/public/shape2_light.svg";
 import shape3_light from "@/public/shape3_light.svg";
@@ -13,6 +13,7 @@ import SplitText from "@/components/SplitText";
 import AnimatedContent from "@/components/AnimatedContent";
 import SpinWord from "@/components/SpinWord";
 import GradientWaves from "../GradientWaves";
+import Link from "next/link";
 
 interface FooterSectionProps {
   theme: string | null;
@@ -215,13 +216,17 @@ export default function FooterSection({ theme }: FooterSectionProps) {
                   />
                 )}
               </a>
-              <div className="flex gap-4 md:gap-6 self-end">
-                <a href="#about">About</a>
-                <a href="#skills">Skills</a>
-                <a href="#projects">Projects</a>
-                <a href="#contact" className="flex items-center underline">
+              <div className="flex gap-4 md:gap-6 self-end items-center">
+                <Link href="/#about">About</Link>
+                <Link href="/#skills">Skills</Link>
+                <Link href="/#projects">Projects</Link>
+                <Link href="/gallery" className="flex items-center gap-1">
+                  <span>Gallery</span>
+                  <CircleArrowRight size={25} strokeWidth={1} className="-rotate-45 transition-transform duration-300"/>
+                </Link>
+                <a href="/#contact" className="flex items-center underline">
                   <span>let&apos;s talk</span>
-                  <ArrowUpRight size={20} />
+                  <ArrowUpRight size={20} strokeWidth={1}/>
                 </a>
               </div>
             </div>
@@ -232,5 +237,5 @@ export default function FooterSection({ theme }: FooterSectionProps) {
         </div>
       </div>
     </section>
-  );
+  );  
 }

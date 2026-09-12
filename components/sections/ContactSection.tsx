@@ -95,7 +95,7 @@ export default function ContactSection() {
   return (
     <section
       id="contact"
-      className="w-full flex flex-col items-center scroll-mt-[80px]"
+      className="w-full flex flex-col items-center md:pt-30 scroll-mt-[80px]"
     >
       <div className="w-full relative max-w-[1536px] flex gap-2 justify-between p-6 pb-20">
         <div className="flex flex-col gap-2">

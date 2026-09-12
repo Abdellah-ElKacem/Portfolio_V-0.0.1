@@ -70,7 +70,7 @@ const listProject: ProjectItem[] = [
             "/ai.svg",
         ],
         tags: ["Website", "UI/UX Design", "Application Mobile"],
-        url: "https://www.kacimo.me",
+        url: "https://dribbble.com/shots/27723529-Personal-Portfolio-UI-UX-Designer-Website",
         githubUrl: "https://github.com/Abdellah-ElKacem/Portfolio_V-0.0.1",
     },
     {

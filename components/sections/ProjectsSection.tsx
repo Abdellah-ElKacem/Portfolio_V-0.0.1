@@ -1,11 +1,18 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight, Plus } from "lucide-react";
 import listProject, { ProjectItem } from "@/app/project_list";
 import SplitText from "@/components/SplitText";
 import AnimatedContent from "@/components/AnimatedContent";
 import ProjectSlider from "@/components/ProjectSlider";
+import FlowingMenu from "@/components/FlowingMenu";
+
+import Hypertube1 from "@/images/hyper1.jpg";
+import Portfolio from "@/images/portfolio_moke_up.png";
+import AuraPrestigeTech from "@/images/web_aura_moke_up.png";
+import Domicilia from "@/images/domicilia_moke_up.png";
 
 interface ProjectsSectionProps {
   setSelectedProject: (p: ProjectItem) => void;
@@ -57,6 +64,53 @@ export default function ProjectsSection({
     setAnchorP3([p3x, p3y]);
   };
 
+  const demoItems = [
+    {
+      link: "/gallery?project=1",
+      text: "Hypertube",
+      image: Hypertube1,
+      onClick: () => {
+        const p = listProject.find((item) => item.id === 1) || listProject[0];
+        setSelectedProject(p);
+        setIsVisible(true);
+        setSliderIndex(0);
+      },
+    },
+    {
+      link: "/gallery?project=2",
+      text: "Portfolio",
+      image: Portfolio,
+      onClick: () => {
+        const p = listProject.find((item) => item.id === 2) || listProject[1];
+        setSelectedProject(p);
+        setIsVisible(true);
+        setSliderIndex(0);
+      },
+    },
+    {
+      link: "/gallery?project=3",
+      text: "Aura Prestige Tech",
+      image: AuraPrestigeTech,
+      onClick: () => {
+        const p = listProject.find((item) => item.id === 3) || listProject[2];
+        setSelectedProject(p);
+        setIsVisible(true);
+        setSliderIndex(0);
+      },
+    },
+    {
+      link: "/gallery?project=4",
+      text: "Domicilia App",
+      image: Domicilia,
+      onClick: () => {
+        const p = listProject.find((item) => item.id === 4) || listProject[3];
+        setSelectedProject(p);
+        setIsVisible(true);
+        setSliderIndex(0);
+      },
+    },
+  ];
+
   useEffect(() => {
     computeConnectors();
     const onResize = () => computeConnectors();
@@ -66,10 +120,10 @@ export default function ProjectsSection({
 
   return (
     <section
-      className="w-full flex flex-col items-center p-6 scroll-mt-[30px]"
+      className="w-full flex flex-col items-center pt-6 scroll-mt-[30px]"
       id="projects"
     >
-      <div className="w-full max-w-[1536px] flex flex-col items-center gap-10">
+      <div className="w-full max-w-[1536px] flex flex-col items-center gap-10 px-6">
         <div className="w-full flex md:flex-row flex-col gap-2">
           <div className="flex -space-x-17  flex-1">
             <AnimatedContent direction="vertical" duration={0.9} delay={0.4}>
@@ -127,7 +181,12 @@ export default function ProjectsSection({
             className="absolute pointer-events-none top-0 left-0 w-full h-full z-20"
           >
             <svg className="w-full h-full text-foreground1 opacity-50">
-              <path d={connectorPath12} fill="none" stroke="currentColor" strokeWidth="2" />
+              <path
+                d={connectorPath12}
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              />
             </svg>
           </AnimatedContent>
           <AnimatedContent
@@ -141,134 +200,195 @@ export default function ProjectsSection({
             className="absolute pointer-events-none top-0 left-0 w-full h-full z-20"
           >
             <svg className="w-full h-full text-foreground1 opacity-50">
-              <path d={connectorPath23} fill="none" stroke="currentColor" strokeWidth="2" />
+              <path
+                d={connectorPath23}
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              />
             </svg>
           </AnimatedContent>
-          <AnimatedContent distance={10} direction="vertical" duration={0.6} initialOpacity={0} animateOpacity threshold={0.1} delay={1.45} className="absolute pointer-events-none top-0 left-0 w-full h-full z-20">
+          <AnimatedContent
+            distance={10}
+            direction="vertical"
+            duration={0.6}
+            initialOpacity={0}
+            animateOpacity
+            threshold={0.1}
+            delay={1.45}
+            className="absolute pointer-events-none top-0 left-0 w-full h-full z-20"
+          >
             <svg className="w-full h-full text-foreground1 opacity-80">
-              {anchorP1 && (<circle cx={anchorP1[0]} cy={anchorP1[1]} r="6" fill="none" stroke="currentColor" strokeWidth="2" />)}
+              {anchorP1 && (
+                <circle
+                  cx={anchorP1[0]}
+                  cy={anchorP1[1]}
+                  r="6"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+              )}
             </svg>
           </AnimatedContent>
-          <AnimatedContent distance={10} direction="vertical" duration={0.6} initialOpacity={0} animateOpacity threshold={0.1} delay={1.55} className="absolute pointer-events-none top-0 left-0 w-full h-full z-20">
+          <AnimatedContent
+            distance={10}
+            direction="vertical"
+            duration={0.6}
+            initialOpacity={0}
+            animateOpacity
+            threshold={0.1}
+            delay={1.55}
+            className="absolute pointer-events-none top-0 left-0 w-full h-full z-20"
+          >
             <svg className="w-full h-full text-foreground1 opacity-80">
-              {anchorP2 && (<circle cx={anchorP2[0]} cy={anchorP2[1]} r="6" fill="none" stroke="currentColor" strokeWidth="2" />)}
+              {anchorP2 && (
+                <circle
+                  cx={anchorP2[0]}
+                  cy={anchorP2[1]}
+                  r="6"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+              )}
             </svg>
           </AnimatedContent>
-          <AnimatedContent distance={10} direction="vertical" duration={0.6} initialOpacity={0} animateOpacity threshold={0.1} delay={1.65} className="absolute pointer-events-none top-0 left-0 w-full h-full z-20">
+          <AnimatedContent
+            distance={10}
+            direction="vertical"
+            duration={0.6}
+            initialOpacity={0}
+            animateOpacity
+            threshold={0.1}
+            delay={1.65}
+            className="absolute pointer-events-none top-0 left-0 w-full h-full z-20"
+          >
             <svg className="w-full h-full text-foreground1 opacity-80">
-              {anchorP3 && (<circle cx={anchorP3[0]} cy={anchorP3[1]} r="6" fill="none" stroke="currentColor" strokeWidth="2" />)}
+              {anchorP3 && (
+                <circle
+                  cx={anchorP3[0]}
+                  cy={anchorP3[1]}
+                  r="6"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+              )}
             </svg>
           </AnimatedContent>
 
-          <AnimatedContent distance={30} direction="vertical" reverse={false} duration={0.9} ease="ease-out" initialOpacity={0} animateOpacity scale={1} threshold={0.1} delay={0}>
-            <div ref={card1Ref} className="flex flex-col justify-between items-start p-6 border-5 border-background w-[250px] h-[310px] md:w-[300px] md:h-[360px] bg-background2 rounded-3xl shadow-xl/10 -rotate-6 md:-rotate-10 hover:scale-105 transition-all duration-500 ease-in-out">
+          <AnimatedContent
+            distance={30}
+            direction="vertical"
+            reverse={false}
+            duration={0.9}
+            ease="ease-out"
+            initialOpacity={0}
+            animateOpacity
+            scale={1}
+            threshold={0.1}
+            delay={0}
+          >
+            <div
+              ref={card1Ref}
+              className="flex flex-col justify-between items-start p-6 border-5 border-background w-[250px] h-[310px] md:w-[300px] md:h-[360px] bg-background2 rounded-3xl shadow-xl/10 -rotate-6 md:-rotate-10 hover:scale-105 transition-all duration-500 ease-in-out"
+            >
               <h2 className="text-5xl">01</h2>
               <div className="flex flex-col gap-2">
                 <h3 className="text-2xl">Discover</h3>
-                <p className="text-xs w-[95%]">Understanding your goals, users, and challenges through research and strategy.</p>
+                <p className="text-xs w-[95%]">
+                  Understanding your goals, users, and challenges through
+                  research and strategy.
+                </p>
               </div>
             </div>
           </AnimatedContent>
-          <AnimatedContent distance={30} direction="vertical" reverse={false} duration={0.9} ease="ease-out" initialOpacity={0} animateOpacity scale={1} threshold={0.1} delay={0.4}>
-            <div ref={card2Ref} className="flex flex-col justify-between items-start p-6 border-5 border-background w-[250px] h-[310px] md:w-[300px] md:h-[360px] bg-background2 rounded-3xl shadow-xl/10 rotate-6 md:rotate-10 md:-mt-10 hover:scale-105 transition-all duration-500 ease-in-out">
+          <AnimatedContent
+            distance={30}
+            direction="vertical"
+            reverse={false}
+            duration={0.9}
+            ease="ease-out"
+            initialOpacity={0}
+            animateOpacity
+            scale={1}
+            threshold={0.1}
+            delay={0.4}
+          >
+            <div
+              ref={card2Ref}
+              className="flex flex-col justify-between items-start p-6 border-5 border-background w-[250px] h-[310px] md:w-[300px] md:h-[360px] bg-background2 rounded-3xl shadow-xl/10 rotate-6 md:rotate-10 md:-mt-10 hover:scale-105 transition-all duration-500 ease-in-out"
+            >
               <h2 className="text-5xl">02</h2>
               <div className="flex flex-col gap-2">
                 <h3 className="text-2xl">Design</h3>
-                <p className="text-xs w-[95%]">Transforming insight into intuitive, beautiful, and functional product experiences.</p>
+                <p className="text-xs w-[95%]">
+                  Transforming insight into intuitive, beautiful, and functional
+                  product experiences.
+                </p>
               </div>
             </div>
           </AnimatedContent>
-          <AnimatedContent distance={30} direction="vertical" reverse={false} duration={0.9} ease="ease-out" initialOpacity={0} animateOpacity scale={1} threshold={0.1} delay={0.8}>
-            <div ref={card3Ref} className="flex flex-col justify-between items-start p-6 border-5 border-background w-[250px] h-[310px] md:w-[300px] md:h-[360px] bg-background2 rounded-3xl shadow-xl/10 -rotate-4 md:-rotate-7 hover:scale-105 transition-all duration-500 ease-in-out">
+          <AnimatedContent
+            distance={30}
+            direction="vertical"
+            reverse={false}
+            duration={0.9}
+            ease="ease-out"
+            initialOpacity={0}
+            animateOpacity
+            scale={1}
+            threshold={0.1}
+            delay={0.8}
+          >
+            <div
+              ref={card3Ref}
+              className="flex flex-col justify-between items-start p-6 border-5 border-background w-[250px] h-[310px] md:w-[300px] md:h-[360px] bg-background2 rounded-3xl shadow-xl/10 -rotate-4 md:-rotate-7 hover:scale-105 transition-all duration-500 ease-in-out"
+            >
               <h2 className="text-5xl">03</h2>
               <div className="flex flex-col gap-2">
                 <h3 className="text-2xl">Deliver</h3>
-                <p className="text-xs w-[95%]">Testing, refining, and launching the final product with clarify and precision.</p>
+                <p className="text-xs w-[95%]">
+                  Testing, refining, and launching the final product with
+                  clarify and precision.
+                </p>
               </div>
             </div>
           </AnimatedContent>
         </div>
 
         {/* Selected Works grid */}
-        <div className="w-full flex flex-col pb-10 items-center gap-10">
+        <div className="w-full flex flex-col items-center gap-10 md:pb-30 pb-10">
           <SplitText
             text="Selected Works"
             className="text-xl md:text-2xl lg:text-4xl font-medium self-end"
             splitType="words"
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-10 ">
-            {listProject
-              .slice(0, visibleProjectsCount)
-              .map((items, index) => (
-                <AnimatedContent
-                  direction="vertical"
-                  duration={0.9}
-                  delay={index * 0.05}
-                  key={index}
-                >
-                  <div
-                    key={`${items.id}-${index}`}
-                    className="w-full max-w-[430px] flex flex-col items-center gap-3 transition-opacity duration-500 ease-out"
-                  >
-                    <ProjectSlider images={items.image} title={items.title} />
-                    <div className="w-full flex flex-col gap-3">
-                      <div className=" w-full flex items-center justify-between px-2">
-                        <h2 className="text-sm md:text-lg font-semibold">
-                          {items.title}
-                        </h2>
-                        <div className="flex gap-1 items-center">
-                          <div className="p-1 px-2 text-xs bg-background2 rounded-lg">
-                            <p>{items.tags[0]}</p>
-                          </div>
-                          <div className="p-1 px-2 text-xs bg-background2 rounded-lg">
-                            <p>{items.tags[1]}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className=" w-full flex items-center justify-between px-2 pb-3 md:pb-0">
-                        <button
-                          onClick={() => {
-                            setSelectedProject(items);
-                            setIsVisible(true);
-                            setSliderIndex(0);
-                          }}
-                          className="p-1 px-9 md:px-15 text-sm bg-background3 rounded-lg text-background flex items-center gap-2 cursor-pointer"
-                        >
-                          <p>Details</p>
-                          <ArrowUpRight size={18} />
-                        </button>
-                        <h2 className="text-sm">{items.year}</h2>
-                      </div>
-                    </div>
-                  </div>
-                </AnimatedContent>
-              ))}
-          </div>
-
-          {/* See More / Show Less */}
-          {listProject.length > visibleProjectsCount && (
-            <button
-              onClick={() =>
-                setVisibleProjectsCount((prev) =>
-                  Math.min(prev + 3, listProject.length),
-                )
-              }
-              className="mt-8 px-8 py-3 bg-background3 rounded-lg text-background flex justify-around items-center gap-2 cursor-pointer hover:bg-background3/90 transition-colors duration-300"
-            >
-              <p>See More</p>
-              <Plus size={18} />
-            </button>
-          )}
-          {visibleProjectsCount >= listProject.length &&
-            visibleProjectsCount > 6 && (
-              <button
-                onClick={() => setVisibleProjectsCount(6)}
-                className="mt-8 px-8 py-3 bg-background3 rounded-lg text-background flex justify-around items-center gap-2 cursor-pointer hover:bg-background3/90 transition-colors duration-300"
-              >
-                <p>Show Less</p>
-              </button>
-            )}
         </div>
+      </div>
+      <div className="w-full relative" style={{ height: "800px", paddingBottom: "100px" }}>
+        <FlowingMenu
+          items={demoItems}
+          speed={6}
+          textColor="var(--foreground)"
+          bgColor="var(--background)"
+          marqueeBgColor="var(--foreground-title2)"
+          marqueeTextColor="var(--background)"
+          borderColor="var(--foreground1-16)"
+        />
+      </div>
+      <div className="w-full flex justify-center pt-8 pb-4">
+        <Link
+          href="/gallery"
+          className="group px-6 py-2.5 rounded-full bg-background2/70 hover:bg-foreground hover:text-background text-foreground text-xs md:text-sm font-medium flex items-center gap-2 transition-all duration-300 border border-foreground1/20 shadow-sm"
+        >
+          <span>Explore More in Gallery</span>
+          <ArrowUpRight
+            size={16}
+            className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          />
+        </Link>
       </div>
     </section>
   );

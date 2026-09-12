@@ -12,6 +12,7 @@
     --foreground1-16: #93a2a34d;
     --foreground-title: #274546;
     --foreground-title1: #274546;
+    --foreground-title2: #2c3930;
     --radius: 0.625rem;
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
@@ -58,6 +59,7 @@
     --color-foreground-title: var(--foreground-title);
     --color-foreground-title: var(--foreground-title);
     --color-foreground-title1: var(--foreground-title1);
+    --color-foreground-title2: var(--foreground-title2);
     --font-sans: var(--font-work-sans);
     --font-ankish: var(--font-ankish);
     --font-crust: var(--font-crustace);
@@ -106,6 +108,7 @@
         --foreground1-16: #93a2a34d;
         --foreground-title: #93a2a3;
         --foreground-title1: #ffffff;
+        --foreground-title2: #d8d8d8;
     }
 }
 
@@ -129,6 +132,7 @@ html {
     --foreground1-16: #93a2a34d;
     --foreground-title: #274546;
     --foreground-title1: #274546;
+    --foreground-title2: #2c3930;
 }
 
 :root[data-theme="dark"] {
@@ -142,6 +146,7 @@ html {
     --foreground1-16: #93a2a34d;
     --foreground-title: #93a2a3;
     --foreground-title1: #d8d8d8;
+    --foreground-title2: #d8d8d8;
 }
 .no-scroll {
     /* Prevents scrolling */
