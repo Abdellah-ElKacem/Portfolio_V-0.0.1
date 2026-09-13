@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Renderer, Program, Mesh, Triangle } from 'ogl';
 
 export type GradientWavesDetail = 'low' | 'medium' | 'high';
@@ -158,6 +158,20 @@ type GradientWavesCtx = {
 };
 const ctxMap = new WeakMap<HTMLDivElement, GradientWavesCtx>();
 
+const checkWebGLSupport = (): { supported: boolean; version: 2 | 1 } => {
+  if (typeof window === 'undefined') return { supported: false, version: 1 };
+  try {
+    const canvas = document.createElement('canvas');
+    const gl2 = canvas.getContext('webgl2');
+    if (gl2) return { supported: true, version: 2 };
+    const gl1 = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (gl1) return { supported: true, version: 1 };
+    return { supported: false, version: 1 };
+  } catch {
+    return { supported: false, version: 1 };
+  }
+};
+
 const GradientWaves: React.FC<GradientWavesProps> = ({
   horizonColor = '#5227FF',
   waveColor = '#FF9FFC',
@@ -183,60 +197,84 @@ const GradientWaves: React.FC<GradientWavesProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const enableMouseRef = useRef<boolean>(mouseInteraction);
+  const [isSupported, setIsSupported] = useState<boolean>(true);
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    const renderer = new Renderer({
-      webgl: 2,
-      alpha: true,
-      premultipliedAlpha: true,
-      antialias: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 2)
-    });
+    let renderer: Renderer | null = null;
+    let gl: any = null;
+    let canvas: HTMLCanvasElement | null = null;
+    let program: Program | null = null;
+    let mesh: Mesh | null = null;
 
-    const gl = renderer.gl;
-    gl.clearColor(0, 0, 0, 0);
-    const canvas = gl.canvas as HTMLCanvasElement;
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    canvas.style.display = 'block';
-    container.appendChild(canvas);
-
-    const geometry = new Triangle(gl);
-    const program = new Program(gl, {
-      vertex,
-      fragment,
-      uniforms: {
-        iTime: { value: 0 },
-        iResolution: { value: new Float32Array([1, 1]) },
-        uSpeed: { value: 0.4 },
-        uAmplitude: { value: 2.5 },
-        uWaveScale: { value: 0.6 },
-        uWaveRatio: { value: 0.9 },
-        uSwell: { value: 35 },
-        uTurbulence: { value: 20 },
-        uTilt: { value: 1.11 },
-        uZoom: { value: 1.0 },
-        uHeight: { value: 5.5 },
-        uFogDepth: { value: 15 },
-        uSteps: { value: 70.0 },
-        uBrightness: { value: 1.0 },
-        uOpacity: { value: 1.0 },
-        uGrain: { value: 1.0 },
-        uGrainIntensity: { value: 0.05 },
-        uMouse: { value: new Float32Array([0.5, 0.5]) },
-        uParallax: { value: 0.5 },
-        uEnableMouse: { value: true },
-        uHorizonColor: { value: new Float32Array([1, 1, 1]) },
-        uWaveColor: { value: new Float32Array([1, 1, 1]) },
-        uCrestColor: { value: new Float32Array([1, 1, 1]) }
+    try {
+      const { supported, version } = checkWebGLSupport();
+      if (!supported) {
+        setIsSupported(false);
+        return;
       }
-    });
 
-    const mesh = new Mesh(gl, { geometry, program });
-    ctxMap.set(container, { renderer, program, mesh });
+      renderer = new Renderer({
+        webgl: version,
+        alpha: true,
+        premultipliedAlpha: true,
+        antialias: false,
+        dpr: Math.min(window.devicePixelRatio || 1, 1.5)
+      });
+
+      gl = renderer.gl;
+      if (!gl || typeof gl.clearColor !== 'function') {
+        setIsSupported(false);
+        return;
+      }
+
+      gl.clearColor(0, 0, 0, 0);
+      canvas = gl.canvas as HTMLCanvasElement;
+      canvas.style.width = '100%';
+      canvas.style.height = '100%';
+      canvas.style.display = 'block';
+      container.appendChild(canvas);
+
+      const geometry = new Triangle(gl);
+      program = new Program(gl, {
+        vertex,
+        fragment,
+        uniforms: {
+          iTime: { value: 0 },
+          iResolution: { value: new Float32Array([1, 1]) },
+          uSpeed: { value: 0.4 },
+          uAmplitude: { value: 2.5 },
+          uWaveScale: { value: 0.6 },
+          uWaveRatio: { value: 0.9 },
+          uSwell: { value: 35 },
+          uTurbulence: { value: 20 },
+          uTilt: { value: 1.11 },
+          uZoom: { value: 1.0 },
+          uHeight: { value: 5.5 },
+          uFogDepth: { value: 15 },
+          uSteps: { value: 70.0 },
+          uBrightness: { value: 1.0 },
+          uOpacity: { value: 1.0 },
+          uGrain: { value: 1.0 },
+          uGrainIntensity: { value: 0.05 },
+          uMouse: { value: new Float32Array([0.5, 0.5]) },
+          uParallax: { value: 0.5 },
+          uEnableMouse: { value: true },
+          uHorizonColor: { value: new Float32Array([1, 1, 1]) },
+          uWaveColor: { value: new Float32Array([1, 1, 1]) },
+          uCrestColor: { value: new Float32Array([1, 1, 1]) }
+        }
+      });
+
+      mesh = new Mesh(gl, { geometry, program });
+      ctxMap.set(container, { renderer, program, mesh });
+    } catch (err) {
+      console.warn('WebGL initialization failed, falling back to CSS animation:', err);
+      setIsSupported(false);
+      return;
+    }
 
     const setSize = () => {
       const rect = container.getBoundingClientRect();
@@ -313,18 +351,32 @@ const GradientWaves: React.FC<GradientWavesProps> = ({
 
     tryStart();
 
+    const handleContextLost = (e: Event) => {
+      e.preventDefault();
+      tryStop();
+      setIsSupported(false);
+    };
+    canvas.addEventListener('webglcontextlost', handleContextLost);
+
     return () => {
       tryStop();
       ro.disconnect();
       io.disconnect();
       document.removeEventListener('visibilitychange', onVisibility);
-      canvas.removeEventListener('pointermove', onPointerMove);
-      canvas.removeEventListener('pointerleave', onPointerLeave);
+      if (canvas) {
+        canvas.removeEventListener('pointermove', onPointerMove);
+        canvas.removeEventListener('pointerleave', onPointerLeave);
+        canvas.removeEventListener('webglcontextlost', handleContextLost);
+        try {
+          container.removeChild(canvas);
+        } catch {}
+      }
       ctxMap.delete(container);
-      try {
-        container.removeChild(canvas);
-      } catch {}
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
+      if (gl) {
+        try {
+          gl.getExtension('WEBGL_lose_context')?.loseContext();
+        } catch {}
+      }
     };
   }, []);
 
@@ -393,7 +445,27 @@ const GradientWaves: React.FC<GradientWavesProps> = ({
     parallaxStrength
   ]);
 
-  return <div ref={containerRef} className={`relative h-full w-full overflow-hidden ${className}`.trim()} />;
+  return (
+    <div ref={containerRef} className={`relative h-full w-full overflow-hidden ${className}`.trim()}>
+      {!isSupported && (
+        <div
+          className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none"
+          style={{
+            background: `radial-gradient(ellipse 100% 70% at 50% 100%, ${horizonColor}cc 0%, ${waveColor}dd 50%, transparent 100%), linear-gradient(180deg, transparent 0%, ${waveColor}99 60%, ${horizonColor}66 100%)`,
+          }}
+        >
+          {/* Fluid aurora wave drift fallback for non-WebGL devices */}
+          <div
+            className="absolute -bottom-1/3 -left-1/4 w-[150%] h-[90%] rounded-[100%] opacity-40 blur-3xl animate-pulse pointer-events-none"
+            style={{
+              background: `radial-gradient(circle at 50% 50%, ${crestColor}66 0%, ${horizonColor}33 50%, transparent 80%)`,
+              animationDuration: '6s',
+            }}
+          />
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default GradientWaves;
