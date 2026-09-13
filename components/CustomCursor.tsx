@@ -100,7 +100,7 @@ export default function CustomCursor() {
       if (!target) return;
 
       const interactiveEl = target.closest(
-        'a, button, [role="button"], input, textarea, select, .cursor-pointer, [data-cursor]'
+        'a, button, [role="button"], input, textarea, select, .cursor-pointer, [data-cursor]',
       );
       const cursorBadge =
         target.closest("[data-cursor]")?.getAttribute("data-cursor") || "";
@@ -210,23 +210,23 @@ export default function CustomCursor() {
           border: badgeText
             ? "1.5px solid var(--foreground)"
             : isDark
-            ? "1.5px solid rgba(147, 162, 163, 0.45)"
-            : "1.5px solid rgba(39, 69, 70, 0.45)",
+              ? "1.5px solid rgba(147, 162, 163, 0.45)"
+              : "1.5px solid rgba(39, 69, 70, 0.45)",
           backgroundColor: badgeText
             ? isDark
               ? "rgba(44, 57, 48, 0.75)"
               : "rgba(216, 216, 216, 0.75)"
             : isDark
-            ? "rgba(147, 162, 163, 0.08)"
-            : "rgba(39, 69, 70, 0.06)",
+              ? "rgba(147, 162, 163, 0.08)"
+              : "rgba(39, 69, 70, 0.06)",
           backdropFilter: "blur(2.5px)",
           boxShadow: badgeText
             ? isDark
               ? "0 0 20px rgba(216, 216, 216, 0.18)"
               : "0 0 20px rgba(23, 23, 23, 0.12)"
             : isDark
-            ? "0 0 15px rgba(147, 162, 163, 0.15)"
-            : "0 0 15px rgba(39, 69, 70, 0.12)",
+              ? "0 0 15px rgba(147, 162, 163, 0.15)"
+              : "0 0 15px rgba(39, 69, 70, 0.12)",
         }}
       >
         {/* Text badge when hovering elements with data-cursor */}

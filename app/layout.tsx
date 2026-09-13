@@ -84,6 +84,15 @@ export default function RootLayout({
                         __html: "(() => { try { const stored = localStorage.getItem('theme'); const theme = stored ? stored : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); document.documentElement.setAttribute('data-theme', theme); } catch {} })();",
                     }}
                 />
+                <style
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                            *, *::before, *::after, html, body, a, button, [role="button"], input, textarea, select, .cursor-pointer {
+                                cursor: none !important;
+                            }
+                        `,
+                    }}
+                />
             </head>
             <body
                 className={`${workSans.variable} ${ankish.variable} ${crustAce.variable} antialiased`}
