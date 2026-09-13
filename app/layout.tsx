@@ -4,102 +4,103 @@ import localFont from "next/font/local";
 import "./globals.css";
 
 const workSans = Work_Sans({
-    variable: "--font-work-sans",
-    subsets: ["latin"],
-    display: "swap",
-    preload: true,
-    adjustFontFallback: true,
+  variable: "--font-work-sans",
+  subsets: ["latin"],
+  display: "swap",
+  preload: true,
+  adjustFontFallback: true,
 });
 
 const ankish = localFont({
-    src: "./font/ANKISH-V2.otf",
-    variable: "--font-ankish",
-    display: "swap",
-    preload: true, // Preload since it's used in hero section (above fold)
-    fallback: ["system-ui", "arial"],
+  src: "./font/ANKISH-V2.otf",
+  variable: "--font-ankish",
+  display: "swap",
+  preload: true, // Preload since it's used in hero section (above fold)
+  fallback: ["system-ui", "arial"],
 });
 
 const crustAce = localFont({
-    src: "./font/FTCrustAce-FREE.otf",
-    variable: "--font-crustace",
-    display: "swap",
-    preload: false,
-    fallback: ["system-ui", "arial"],
+  src: "./font/FTCrustAce-FREE.otf",
+  variable: "--font-crustace",
+  display: "swap",
+  preload: false,
+  fallback: ["system-ui", "arial"],
 });
 
 export const metadata: Metadata = {
+  title: "El Kacem | UI/UX & Frontend Dev",
+  description:
+    "Portfolio of Abdellah El Kacem - UI/UX Designer & Frontend Developer",
+  keywords: [
+    "UI/UX Designer",
+    "Frontend Developer",
+    "Web Developer",
+    "Portfolio",
+    "Abdellah El Kacem",
+  ],
+  authors: [{ name: "Abdellah El Kacem" }],
+  creator: "Abdellah El Kacem",
+  openGraph: {
     title: "El Kacem | UI/UX & Frontend Dev",
     description:
-        "Portfolio of Abdellah El Kacem - UI/UX Designer & Frontend Developer",
-    keywords: [
-        "UI/UX Designer",
-        "Frontend Developer",
-        "Web Developer",
-        "Portfolio",
-        "Abdellah El Kacem",
-    ],
-    authors: [{ name: "Abdellah El Kacem" }],
-    creator: "Abdellah El Kacem",
-    openGraph: {
-        title: "El Kacem | UI/UX & Frontend Dev",
-        description:
-            "Portfolio of Abdellah El Kacem - UI/UX Designer & Frontend Developer",
-        type: "website",
-        locale: "en_US",
+      "Portfolio of Abdellah El Kacem - UI/UX Designer & Frontend Developer",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "El Kacem | UI/UX & Frontend Dev",
+    description:
+      "Portfolio of Abdellah El Kacem - UI/UX Designer & Frontend Developer",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
-    twitter: {
-        card: "summary_large_image",
-        title: "El Kacem | UI/UX & Frontend Dev",
-        description:
-            "Portfolio of Abdellah El Kacem - UI/UX Designer & Frontend Developer",
-    },
-    robots: {
-        index: true,
-        follow: true,
-        googleBot: {
-            index: true,
-            follow: true,
-            "max-video-preview": -1,
-            "max-image-preview": "large",
-            "max-snippet": -1,
-        },
-    },
-    icons: {
-        icon: ["/logo_aek1.svg", "/logo_aek.svg"],
-    },
+  },
+  icons: {
+    icon: ["/logo_aek1.svg", "/logo_aek.svg"],
+  },
 };
 
 import CustomCursor from "@/components/CustomCursor";
 
 export default function RootLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-        <html lang="en" suppressHydrationWarning>
-            <head>
-                <script
-                    dangerouslySetInnerHTML={{
-                        __html: "(() => { try { const stored = localStorage.getItem('theme'); const theme = stored ? stored : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); document.documentElement.setAttribute('data-theme', theme); } catch {} })();",
-                    }}
-                />
-                <style
-                    dangerouslySetInnerHTML={{
-                        __html: `
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(() => { try { const stored = localStorage.getItem('theme'); const theme = stored ? stored : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); document.documentElement.setAttribute('data-theme', theme); } catch {} })();",
+          }}
+        />
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
                             *, *::before, *::after, html, body, a, button, [role="button"], input, textarea, select, .cursor-pointer {
                                 cursor: none !important;
                             }
                         `,
-                    }}
-                />
-            </head>
-            <body
-                className={`${workSans.variable} ${ankish.variable} ${crustAce.variable} antialiased`}
-            >
-                <CustomCursor />
-                {children}
-            </body>
-        </html>
-    );
+          }}
+        />
+      </head>
+      <body
+        className={`${workSans.variable} ${ankish.variable} ${crustAce.variable} antialiased`}
+      >
+        <CustomCursor />
+        {children}
+      </body>
+    </html>
+  );
 }

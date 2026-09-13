@@ -4,307 +4,272 @@ import React, { useEffect, useState, useRef } from "react";
 import { gsap } from "gsap";
 
 interface LoadingProps {
-    onComplete?: () => void;
+  onComplete?: () => void;
 }
 
 const Loading: React.FC<LoadingProps> = ({ onComplete }) => {
-    const [isLoading, setIsLoading] = useState(true);
-    const [percentage, setPercentage] = useState(0);
-    const loadingRef = useRef<HTMLDivElement>(null);
-    const progressContainerRef = useRef<HTMLDivElement>(null);
-    const progressLayer1Ref = useRef<HTMLDivElement>(null);
-    const progressLayer2Ref = useRef<HTMLDivElement>(null);
-    const progressLayer3Ref = useRef<HTMLDivElement>(null);
-    const numberRef = useRef<HTMLDivElement>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const loadingRef = useRef<HTMLDivElement>(null);
+  const progressLayer1Ref = useRef<HTMLDivElement>(null);
+  const progressLayer2Ref = useRef<HTMLDivElement>(null);
+  const progressLayer3Ref = useRef<HTMLDivElement>(null);
+  const numberRef = useRef<HTMLDivElement>(null);
+  const numberTextRef = useRef<HTMLSpanElement>(null);
 
-    // Prevent scrolling while loading
-    useEffect(() => {
-        if (isLoading) {
-            document.documentElement.classList.add("no-scroll");
-            document.body.classList.add("no-scroll");
-            document.documentElement.style.overflow = "hidden";
-            document.body.style.overflow = "hidden";
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
+
+  // Prevent scrolling while loading
+  useEffect(() => {
+    if (isLoading) {
+      document.documentElement.classList.add("no-scroll");
+      document.body.classList.add("no-scroll");
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+    } else {
+      document.documentElement.classList.remove("no-scroll");
+      document.body.classList.remove("no-scroll");
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    // Avoid blocking repeat navigations in the same session
+    try {
+      if (sessionStorage.getItem("portfolio_intro_seen")) {
+        setIsLoading(false);
+        onCompleteRef.current?.();
+        return;
+      }
+      sessionStorage.setItem("portfolio_intro_seen", "1");
+    } catch {}
+
+    const initTimeout = setTimeout(() => {
+      if (
+        !progressLayer1Ref.current ||
+        !progressLayer2Ref.current ||
+        !progressLayer3Ref.current ||
+        !numberRef.current
+      ) {
+        animateOut();
+        return;
+      }
+
+      // Initial state: layers at bottom, 0% height with rounded tops
+      gsap.set(
+        [
+          progressLayer1Ref.current,
+          progressLayer2Ref.current,
+          progressLayer3Ref.current,
+        ],
+        {
+          height: "0%",
+          bottom: 0,
+          opacity: 1,
+          y: 0,
         }
-    }, [isLoading]);
+      );
 
-    useEffect(() => {
-        // Small delay to ensure refs are set and DOM is ready
-        const initTimeout = setTimeout(() => {
-            // Check if all refs are available
-            if (
-                !progressLayer1Ref.current ||
-                !progressLayer2Ref.current ||
-                !progressLayer3Ref.current ||
-                !numberRef.current
-            ) {
-                console.warn("Loading refs not ready");
-                return;
-            }
+      // Number initial state: scale in smoothly
+      gsap.fromTo(
+        numberRef.current,
+        { opacity: 0, scale: 0.85, y: 30 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: "power2.out" }
+      );
 
-            // Set initial state for all 3 layers (bottom aligned, hidden)
-            gsap.set(progressLayer1Ref.current, {
-                height: "0%",
-                bottom: 0,
-                opacity: 0,
-                width: "100%",
-            });
-            gsap.set(progressLayer2Ref.current, {
-                height: "0%",
-                bottom: 0,
-                opacity: 0,
-                width: "100%",
-            });
-            gsap.set(progressLayer3Ref.current, {
-                height: "0%",
-                bottom: 0,
-                opacity: 0,
-                width: "100%",
-            });
+      // Create main timeline
+      const mainTl = gsap.timeline();
 
-            // Animate number appearance first (start visible, just scale in)
-            gsap.set(numberRef.current, { opacity: 1, scale: 0.8 });
-            gsap.to(numberRef.current, {
-                scale: 1,
-                duration: 0.5,
-                ease: "power2.out",
-            });
+      // Synchronize 3 color layers with the counting percentage:
+      // - 0% -> 35%: Layer 1 (#7692a9) rises from bottom
+      // - 30% -> 70%: Layer 2 (#93a2a3) rises over Layer 1
+      // - 65% -> 100%: Layer 3 (#ffffff) rises to fill the whole screen
+      const updateProgressAndLayers = (val: number) => {
+        if (numberTextRef.current) {
+          numberTextRef.current.textContent = `${val}`;
+        }
 
-            // Create main timeline
-            const mainTl = gsap.timeline();
+        // Layer 1 height (0% -> 35%)
+        const l1 = Math.min(36, (val / 35) * 36);
+        if (progressLayer1Ref.current) {
+          progressLayer1Ref.current.style.height = `${l1}%`;
+        }
 
-            // Step 1: Animate percentage number from 0 to 100 (slower from 80% to 100%)
-            // First phase: 0% to 80% (faster)
-            mainTl.to(
-                {},
-                {
-                    duration: 1.5,
-                    ease: "power2.out",
-                    onUpdate: function () {
-                        const progress = this.progress();
-                        const value = Math.round(progress * 80); // 0 to 80
-                        setPercentage(value);
-                    },
-                }
-            );
+        // Layer 2 height (30% -> 70%)
+        if (val >= 28) {
+          const l2 = Math.min(70, ((val - 28) / 38) * 70);
+          if (progressLayer2Ref.current) {
+            progressLayer2Ref.current.style.height = `${l2}%`;
+          }
+        }
 
-            // Second phase: 80% to 100% (much slower)
-            mainTl.to(
-                {},
-                {
-                    duration: 2.5, // Much slower duration for the last 20%
-                    ease: "power1.out",
-                    onUpdate: function () {
-                        const progress = this.progress();
-                        const value = 80 + Math.round(progress * 20); // 80 to 100
-                        setPercentage(value);
-                    },
-                }
-            );
+        // Layer 3 height (65% -> 100%)
+        if (val >= 64) {
+          const l3 = Math.min(100, ((val - 64) / 36) * 100);
+          if (progressLayer3Ref.current) {
+            progressLayer3Ref.current.style.height = `${l3}%`;
+          }
+        }
+      };
 
-            // Step 2: Show and animate 3 color layers from bottom to top AFTER 100%
-            // Hide percentage number when layers start
-            mainTl.to(
-                numberRef.current,
-                {
-                    opacity: 0,
-                    scale: 0.8,
-                    duration: 0.4,
-                    ease: "power2.in",
-                },
-                "+=1.2" // Start hiding when layers start
-            );
+      // Phase 1: 0% to 80% (dynamic, energetic climb)
+      mainTl.to(
+        {},
+        {
+          duration: 1.1,
+          ease: "power2.out",
+          onUpdate: function () {
+            const progress = this.progress();
+            const value = Math.round(progress * 80);
+            updateProgressAndLayers(value);
+          },
+        }
+      );
 
-            // Layer 1: First color (0-33%) - fill from bottom
-            mainTl.to(
-                progressLayer1Ref.current,
-                {
-                    opacity: 1,
-                    duration: 0.6,
-                    ease: "power1.out",
-                },
-                "-=0.1" // Start slightly before number fades out
-            );
-            mainTl.to(
-                progressLayer1Ref.current,
-                {
-                    height: "33%",
-                    duration: 1.2,
-                    ease: "power1.inOut",
-                },
-                "-=0.4"
-            ); // Start fill during opacity for smoother transition
+      // Phase 2: 80% to 100% (suspenseful finish into 100%)
+      mainTl.to(
+        {},
+        {
+          duration: 0.65,
+          ease: "power1.inOut",
+          onUpdate: function () {
+            const progress = this.progress();
+            const value = 80 + Math.round(progress * 20);
+            updateProgressAndLayers(value);
+          },
+        }
+      );
 
-            // Layer 2: Second color (33-66%) - fill on top of layer 1 with smooth overlap
-            mainTl.to(
-                progressLayer2Ref.current,
-                {
-                    opacity: 1,
-                    duration: 0.6,
-                    ease: "power1.out",
-                },
-                "-=0.7" // Start during layer 1 fill for smoother transition
-            );
-            mainTl.to(
-                progressLayer2Ref.current,
-                {
-                    height: "66%",
-                    duration: 1.2,
-                    ease: "power1.inOut",
-                },
-                "-=0.4" // Overlap with layer 1 fill animation
-            );
+      // Step 3: Satisfying scale punch on 100%
+      mainTl.to(
+        numberRef.current,
+        {
+          scale: 1.08,
+          duration: 0.16,
+          ease: "power2.out",
+        },
+        "+=0.04"
+      );
 
-            // Layer 3: Third color (66-100%) - fill on top of layer 2
-            mainTl.to(
-                progressLayer3Ref.current,
-                {
-                    opacity: 1,
-                    duration: 0.6,
-                    ease: "power1.out",
-                },
-                "-=0.7" // Start during layer 2 fill for smoother transition
-            );
-            mainTl.to(
-                progressLayer3Ref.current,
-                {
-                    height: "100%",
-                    duration: 1.2,
-                    ease: "power1.inOut",
-                },
-                "-=0.4" // Overlap with layer 2 fill animation
-            );
+      // Step 4: All 3 layers + number slide up together to reveal the page
+      mainTl.to(
+        [
+          numberRef.current,
+          progressLayer1Ref.current,
+          progressLayer2Ref.current,
+          progressLayer3Ref.current,
+        ],
+        {
+          y: "-100%",
+          duration: 0.65,
+          ease: "power4.inOut",
+          stagger: 0.03,
+          onComplete: () => {
+            animateOut();
+          },
+        },
+        "+=0.12"
+      );
+    }, 40);
 
-            // Final step: All layers slide up to the top with fade out
-            mainTl.to(
-                [
-                    progressLayer1Ref.current,
-                    progressLayer2Ref.current,
-                    progressLayer3Ref.current,
-                ],
-                {
-                    y: "-100%",
-                    opacity: 0,
-                    duration: 1.2,
-                    ease: "power1.inOut",
-                    onComplete: () => {
-                        // Wait a bit then animate out
-                        setTimeout(() => {
-                            animateOut();
-                        }, 100);
-                    },
-                },
-                "-=0.2" // Start slightly before layer 3 finishes
-            );
-        }, 100);
+    // Fallback safety timeout
+    const maxTime = setTimeout(() => {
+      animateOut();
+    }, 2800);
 
-        // Fallback: ensure animation completes even if page loads quickly
-        const maxTime = setTimeout(() => {
-            // Animation should complete by now, but ensure we exit
-            setTimeout(() => {
-                animateOut();
-            }, 2000);
-        }, 4500);
-
-        return () => {
-            clearTimeout(initTimeout);
-            clearTimeout(maxTime);
-        };
-    }, []);
-
-    const animateOut = () => {
-        if (!loadingRef.current) return;
-
-        const tl = gsap.timeline({
-            onComplete: () => {
-                setIsLoading(false);
-                onComplete?.();
-            },
-        });
-
-        // Fade out number and all progress layers
-        tl.to(
-            [
-                numberRef.current,
-                progressLayer1Ref.current,
-                progressLayer2Ref.current,
-                progressLayer3Ref.current,
-            ],
-            {
-                opacity: 0,
-                duration: 0.3,
-                ease: "power2.in",
-            },
-            0
-        );
-
-        // Slide up and fade out the entire loading screen
-        tl.to(
-            loadingRef.current,
-            {
-                y: "-100%",
-                opacity: 0,
-                duration: 0.6,
-                ease: "power3.inOut",
-            },
-            0.2
-        );
+    return () => {
+      clearTimeout(initTimeout);
+      clearTimeout(maxTime);
     };
+  }, []);
 
-    if (!isLoading) return null;
+  const animateOut = () => {
+    if (!loadingRef.current) {
+      setIsLoading(false);
+      onCompleteRef.current?.();
+      return;
+    }
 
-    return (
-        <div
-            ref={loadingRef}
-            className="fixed inset-0 z-[9999] bg-background flex flex-col items-center justify-center overflow-hidden touch-none select-none overscroll-none"
-        >
-            {/* 3 Color Layers filling the entire page from bottom to top */}
-            {/* Layer 1: First color (bottom layer) */}
-            <div
-                ref={progressLayer1Ref}
-                className="fixed bottom-0 left-0 right-0"
-                style={{
-                    height: "0%",
-                    backgroundColor: "#7692a9", // foreground1 color
-                    zIndex: 1,
-                    willChange: "height, opacity",
-                    opacity: 0,
-                }}
-            />
-            {/* Layer 2: Second color (middle layer) */}
-            <div
-                ref={progressLayer2Ref}
-                className="fixed bottom-0 left-0 right-0"
-                style={{
-                    height: "0%",
-                    backgroundColor: "#93a2a3", // foreground-title color
-                    zIndex: 2,
-                    willChange: "height, opacity",
-                    opacity: 0,
-                }}
-            />
-            {/* Layer 3: Third color (top layer) */}
-            <div
-                ref={progressLayer3Ref}
-                className="fixed bottom-0 left-0 right-0"
-                style={{
-                    height: "0%",
-                    backgroundColor: "#ffffff", // foreground-title1 color
-                    zIndex: 3,
-                    willChange: "height, opacity",
-                    opacity: 0,
-                }}
-            />
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setIsLoading(false);
+        onCompleteRef.current?.();
+      },
+    });
 
-            {/* Percentage Number - bottom right with padding */}
-            <div
-                ref={numberRef}
-                className="fixed bottom-5 right-5 z-10 text-8xl md:text-9xl font-light text-foreground-title1 tabular-nums"
-                style={{ opacity: 1 }}
-            >
-                {percentage}%
-            </div>
-        </div>
+    tl.to(
+      loadingRef.current,
+      {
+        opacity: 0,
+        duration: 0.25,
+        ease: "power2.out",
+      },
+      0
     );
+  };
+
+  if (!isLoading) return null;
+
+  return (
+    <div
+      ref={loadingRef}
+      className="fixed inset-0 z-[9999] bg-background flex flex-col justify-end overflow-hidden touch-none select-none overscroll-none"
+    >
+      {/* 3 Color Layers filling the page from bottom to top with fluid rounded tops */}
+      {/* Layer 1: First color (0-33%) */}
+      <div
+        ref={progressLayer1Ref}
+        className="fixed bottom-0 left-0 right-0 pointer-events-none rounded-t-[40px] sm:rounded-t-[80px]"
+        style={{
+          height: "0%",
+          backgroundColor: "#7692a9", // foreground1 color
+          zIndex: 1,
+          willChange: "transform, height",
+        }}
+      />
+
+      {/* Layer 2: Second color (33-66%) */}
+      <div
+        ref={progressLayer2Ref}
+        className="fixed bottom-0 left-0 right-0 pointer-events-none rounded-t-[40px] sm:rounded-t-[80px]"
+        style={{
+          height: "0%",
+          backgroundColor: "#93a2a3", // foreground-title color
+          zIndex: 2,
+          willChange: "transform, height",
+        }}
+      />
+
+      {/* Layer 3: Third color (66-100%) */}
+      <div
+        ref={progressLayer3Ref}
+        className="fixed bottom-0 left-0 right-0 pointer-events-none rounded-t-[40px] sm:rounded-t-[80px]"
+        style={{
+          height: "0%",
+          backgroundColor: "#274546", // signature brand deep teal
+          zIndex: 3,
+          willChange: "transform, height",
+        }}
+      />
+
+      {/* Percentage Number - bottom right with normal font weight */}
+      <div
+        ref={numberRef}
+        className="fixed bottom-5 right-5 sm:bottom-8 sm:right-8 md:bottom-12 md:right-12 z-20 flex items-baseline select-none pointer-events-none origin-bottom-right text-[#d8d8d8]"
+      >
+        <span
+          ref={numberTextRef}
+          className="text-8xl sm:text-9xl md:text-[140px] lg:text-[180px] xl:text-[210px] font-normal tabular-nums leading-none tracking-tight"
+        >
+          0
+        </span>
+        <span className="text-3xl sm:text-5xl md:text-7xl font-light ml-1 sm:ml-2 opacity-80">
+          %
+        </span>
+      </div>
+    </div>
+  );
 };
 
 export default Loading;

@@ -6,7 +6,7 @@ import {
   faBehance,
   faInstagram,
   faLinkedinIn,
-  faDribbble
+  faDribbble,
 } from "@fortawesome/free-brands-svg-icons";
 import { Mouse } from "lucide-react";
 import me_3 from "@/images/photo.jpeg";
