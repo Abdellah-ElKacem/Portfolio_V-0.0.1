@@ -46,7 +46,13 @@ const skillNames: Record<string, string> = {
 };
 
 export default function GalleryView() {
-  const [theme, setTheme] = useState<string | null>(null);
+  const [theme, setTheme] = useState<string | null>(() => {
+    if (typeof window === "undefined") return null;
+    return (
+      document.documentElement.getAttribute("data-theme") ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+    );
+  });
   const [navHidden, setNavHidden] = useState(false);
   const lastY = useRef(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -330,136 +336,130 @@ export default function GalleryView() {
         {/* Projects Grid */}
         {filteredProjects.length > 0 ? (
           <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {filteredProjects.map((project, index) => (
-              <AnimatedContent
+            {filteredProjects.map((project) => (
+              <div
                 key={project.id}
-                direction="vertical"
-                duration={0.7}
-                delay={index * 0.05}
+                data-cursor="View"
+                onClick={() => {
+                  setSelectedProject(project);
+                  setIsVisible(true);
+                  setSliderIndex(0);
+                }}
+                className="group w-full h-full flex flex-col justify-between rounded-3xl bg-background2/35 hover:bg-background2/65 border border-foreground1/15 hover:border-foreground/30 p-4 transition-all duration-300 hover:shadow-xl/10 cursor-pointer"
               >
-                <div
-                  data-cursor="View"
-                  onClick={() => {
-                    setSelectedProject(project);
-                    setIsVisible(true);
-                    setSliderIndex(0);
-                  }}
-                  className="group w-full h-full flex flex-col justify-between rounded-3xl bg-background2/35 hover:bg-background2/65 border border-foreground1/15 hover:border-foreground/30 p-4 transition-all duration-300 hover:shadow-xl/10 cursor-pointer"
-                >
-                  <div className="flex flex-col gap-4">
-                    {/* Project Slider Image Preview */}
-                    <div className="w-full">
-                      <ProjectSlider
-                        images={project.image}
-                        title={project.title}
-                      />
-                    </div>
-
-                    {/* Header: Title + Year */}
-                    <div className="flex items-start justify-between gap-2 px-1">
-                      <div>
-                        <h2 className="text-lg md:text-xl font-semibold tracking-tight group-hover:text-foreground transition-colors">
-                          {project.title}
-                        </h2>
-                        <div className="flex flex-wrap gap-1.5 mt-1.5">
-                          {project.tags.slice(0, 3).map((tag, tIdx) => (
-                            <span
-                              key={tIdx}
-                              className="px-2 py-0.5 text-[11px] rounded-md bg-background2 text-foreground font-normal"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                          {project.tags.length > 3 && (
-                            <span className="px-1.5 py-0.5 text-[10px] text-[#93A2A3]">
-                              +{project.tags.length - 3}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-background border border-foreground1/20 text-foreground/50 shrink-0">
-                        {project.year}
-                      </span>
-                    </div>
-
-                    {/* Brief Description */}
-                    <p className="px-1 text-xs md:text-sm text-[#93A2A3] line-clamp-2 leading-relaxed">
-                      {project.description}
-                    </p>
-
-                    {/* Tech Stack Preview Icons */}
-                    <div className="px-1 pt-1 flex items-center gap-1.5 overflow-hidden">
-                      {project.skills.slice(0, 6).map((iconPath, sIdx) => {
-                        const name = skillNames[iconPath] || "Tech";
-                        return (
-                          <div
-                            key={sIdx}
-                            title={name}
-                            className="p-1.5 rounded-lg bg-background border border-foreground1/15 flex items-center justify-center shrink-0 hover:scale-110 transition-transform"
-                          >
-                            <Image
-                              src={iconPath}
-                              alt={name}
-                              width={18}
-                              height={18}
-                              className="w-4 h-4 object-contain"
-                            />
-                          </div>
-                        );
-                      })}
-                      {project.skills.length > 6 && (
-                        <span className="text-[11px] text-[#93A2A3] font-medium pl-1">
-                          +{project.skills.length - 6}
-                        </span>
-                      )}
-                    </div>
+                <div className="flex flex-col gap-4">
+                  {/* Project Slider Image Preview */}
+                  <div className="w-full">
+                    <ProjectSlider
+                      images={project.image}
+                      title={project.title}
+                    />
                   </div>
 
-                  {/* Card Actions */}
-                  <div className="pt-5 px-1 flex items-center justify-between gap-2 border-t border-foreground1/10 mt-4">
-                    <button
-                      data-cursor="View"
-                      onClick={() => {
-                        setSelectedProject(project);
-                        setIsVisible(true);
-                        setSliderIndex(0);
-                      }}
-                      className="flex-1 py-2 px-4 rounded-xl bg-background3 text-background hover:bg-background3/90 text-xs md:text-sm font-medium flex items-center justify-center gap-2 cursor-pointer transition-colors duration-200"
-                    >
-                      <span>Case Details</span>
-                      <ArrowUpRight size={16} />
-                    </button>
+                  {/* Header: Title + Year */}
+                  <div className="flex items-start justify-between gap-2 px-1">
+                    <div>
+                      <h2 className="text-lg md:text-xl font-semibold tracking-tight group-hover:text-foreground transition-colors">
+                        {project.title}
+                      </h2>
+                      <div className="flex flex-wrap gap-1.5 mt-1.5">
+                        {project.tags.slice(0, 3).map((tag, tIdx) => (
+                          <span
+                            key={tIdx}
+                            className="px-2 py-0.5 text-[11px] rounded-md bg-background2 text-foreground font-normal"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                        {project.tags.length > 3 && (
+                          <span className="px-1.5 py-0.5 text-[10px] text-[#93A2A3]">
+                            +{project.tags.length - 3}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-background border border-foreground1/20 text-foreground/50 shrink-0">
+                      {project.year}
+                    </span>
+                  </div>
 
-                    {project.url && (
-                      <a
-                        data-cursor="Open"
-                        href={project.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        title="Open Live Website / Preview"
-                        className="p-2 rounded-xl bg-background border border-foreground1/20 hover:border-foreground text-foreground flex items-center justify-center transition-all hover:scale-105"
-                      >
-                        <ArrowUpRight size={17} />
-                      </a>
-                    )}
+                  {/* Brief Description */}
+                  <p className="px-1 text-xs md:text-sm text-[#93A2A3] line-clamp-2 leading-relaxed">
+                    {project.description}
+                  </p>
 
-                    {project.githubUrl && (
-                      <a
-                        data-cursor="Code"
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        title="View GitHub Repository"
-                        className="p-2 rounded-xl bg-background border border-foreground1/20 hover:border-foreground text-foreground flex items-center justify-center transition-all hover:scale-105"
-                      >
-                        <Github size={17} />
-                      </a>
+                  {/* Tech Stack Preview Icons */}
+                  <div className="px-1 pt-1 flex items-center gap-1.5 overflow-hidden">
+                    {project.skills.slice(0, 6).map((iconPath, sIdx) => {
+                      const name = skillNames[iconPath] || "Tech";
+                      return (
+                        <div
+                          key={sIdx}
+                          title={name}
+                          className="p-1.5 rounded-lg bg-background border border-foreground1/15 flex items-center justify-center shrink-0 hover:scale-110 transition-transform"
+                        >
+                          <Image
+                            src={iconPath}
+                            alt={name}
+                            width={18}
+                            height={18}
+                            className="w-4 h-4 object-contain"
+                          />
+                        </div>
+                      );
+                    })}
+                    {project.skills.length > 6 && (
+                      <span className="text-[11px] text-[#93A2A3] font-medium pl-1">
+                        +{project.skills.length - 6}
+                      </span>
                     )}
                   </div>
                 </div>
-              </AnimatedContent>
+
+                {/* Card Actions */}
+                <div className="pt-5 px-1 flex items-center justify-between gap-2 border-t border-foreground1/10 mt-4">
+                  <button
+                    data-cursor="View"
+                    onClick={() => {
+                      setSelectedProject(project);
+                      setIsVisible(true);
+                      setSliderIndex(0);
+                    }}
+                    className="flex-1 py-2 px-4 rounded-xl bg-background3 text-background hover:bg-background3/90 text-xs md:text-sm font-medium flex items-center justify-center gap-2 cursor-pointer transition-colors duration-200"
+                  >
+                    <span>Case Details</span>
+                    <ArrowUpRight size={16} />
+                  </button>
+
+                  {project.url && (
+                    <a
+                      data-cursor="Open"
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      title="Open Live Website / Preview"
+                      className="p-2 rounded-xl bg-background border border-foreground1/20 hover:border-foreground text-foreground flex items-center justify-center transition-all hover:scale-105"
+                    >
+                      <ArrowUpRight size={17} />
+                    </a>
+                  )}
+
+                  {project.githubUrl && (
+                    <a
+                      data-cursor="Code"
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      title="View GitHub Repository"
+                      className="p-2 rounded-xl bg-background border border-foreground1/20 hover:border-foreground text-foreground flex items-center justify-center transition-all hover:scale-105"
+                    >
+                      <Github size={17} />
+                    </a>
+                  )}
+                </div>
+              </div>
             ))}
           </div>
         ) : (

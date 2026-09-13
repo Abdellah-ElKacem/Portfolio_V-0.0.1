@@ -76,6 +76,7 @@ export default function ProjectModal({
                           src={img}
                           alt={`${selectedProject.title} ${idx + 1}`}
                           fill
+                          sizes="(max-width: 768px) 100vw, 750px"
                           className="object-cover"
                           priority={idx === 0}
                         />

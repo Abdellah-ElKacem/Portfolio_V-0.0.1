@@ -13,22 +13,25 @@ export default function ProjectSlider({
 
   return (
     <div className="relative w-full h-[300px] overflow-hidden rounded-3xl shadow-md/10 border-5 border-background">
-      {/* Slides */}
-      {images.map((img, i) => (
-        <div
-          key={i}
-          className="absolute inset-0 transition-opacity duration-500 ease-in-out"
-          style={{ opacity: i === idx ? 1 : 0, zIndex: i === idx ? 1 : 0 }}
-        >
-          <Image
-            src={img}
-            alt={`${title} – slide ${i + 1}`}
-            fill
-            priority={i === 0}
-            className="object-cover hover:scale-105 transition-transform duration-500 ease-in-out"
-          />
-        </div>
-      ))}
+      {/* Slides: only render active slide to avoid downloading dozens of heavy images */}
+      {images.map((img, i) => {
+        if (i !== idx) return null;
+        return (
+          <div
+            key={i}
+            className="absolute inset-0 transition-opacity duration-300 ease-in-out"
+            style={{ opacity: 1, zIndex: 1 }}
+          >
+            <Image
+              src={img}
+              alt={`${title} – slide ${i + 1}`}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover hover:scale-105 transition-transform duration-500 ease-in-out"
+            />
+          </div>
+        );
+      })}
 
       {/* Bottom gradient for bar visibility */}
       {images.length > 1 && (
@@ -41,7 +44,10 @@ export default function ProjectSlider({
           {images.map((_, i) => (
             <button
               key={i}
-              onClick={() => setIdx(i)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIdx(i);
+              }}
               aria-label={`Go to slide ${i + 1}`}
               className="flex-1 h-[3px] rounded-sm transition-all duration-300 ease-in-out cursor-pointer"
               style={{

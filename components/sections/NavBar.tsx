@@ -110,6 +110,7 @@ export default function NavBar({ theme, navHidden, toggleTheme }: NavBarProps) {
         </Link>
         <Link
           href="/gallery"
+          prefetch={true}
           className="hidden md:inline-flex items-center group relative"
         >
           <RollingText

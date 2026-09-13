@@ -393,6 +393,7 @@ export default function ProjectsSection({
         <div className="w-full flex justify-center pt-8 md:pt-25 pb-4">
           <Link
             href="/gallery"
+            prefetch={true}
             className="group px-6 py-2.5 rounded-full bg-background2/70 hover:bg-foreground hover:text-background text-foreground text-xs md:text-sm font-medium flex items-center gap-2 transition-all duration-300 border border-foreground1/20 shadow-sm"
           >
             <span>Explore More in Gallery</span>
