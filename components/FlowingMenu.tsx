@@ -219,7 +219,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
         className="w-full h-full flex items-center justify-center"
       >
         <a
-          className={`px-8 flex items-center justify-between h-full w-full max-w-[1700px] relative cursor-pointer uppercase no-underline tracking-wider font-ankish font-semibold text-[4vh] transition-all duration-300 ${
+          className={`px-4 md:px-8 flex items-center justify-between h-full w-full max-w-[1700px] relative cursor-pointer uppercase no-underline tracking-wider font-ankish font-semibold text-[3.5vh] transition-all duration-300 ${
             isHovered ? 'opacity-0 scale-105 pointer-events-none' : 'opacity-100 scale-100'
           }`}
           href={link || '#'}

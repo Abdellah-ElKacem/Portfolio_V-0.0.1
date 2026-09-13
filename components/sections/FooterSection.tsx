@@ -196,7 +196,7 @@ export default function FooterSection({ theme }: FooterSectionProps) {
         {/* Footer nav + copyright */}
         <div className="w-full flex flex-col md:flex-row items-center justify-between gap-5">
           <nav className="flex items-center gap-2 uppercase">
-            <div className="flex items-center md:items-start gap-4 md:gap-6 flex-col md:flex-row text-sm">
+            <div className="flex items-center md:items-start gap-4 md:gap-6 flex-col md:flex-row text-xs md:text-sm">
               <a href="#home" className="sm:w-auto md:max-w-[120px]">
                 {theme === "dark" ? (
                   <Image
@@ -222,11 +222,11 @@ export default function FooterSection({ theme }: FooterSectionProps) {
                 <Link href="/#projects">Projects</Link>
                 <Link href="/gallery" className="flex items-center gap-1">
                   <span>Gallery</span>
-                  <CircleArrowRight size={25} strokeWidth={1} className="-rotate-45 transition-transform duration-300"/>
+                  <CircleArrowRight size={25} strokeWidth={1} className="-rotate-45 hidden md:block transition-transform duration-300"/>
                 </Link>
-                <a href="/#contact" className="flex items-center underline">
+                <a href="/#contact" className="flex items-center md:underline">
                   <span>let&apos;s talk</span>
-                  <ArrowUpRight size={20} strokeWidth={1}/>
+                  <ArrowUpRight size={20} strokeWidth={1} className='hidden md:block' />
                 </a>
               </div>
             </div>

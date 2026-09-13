@@ -367,7 +367,7 @@ export default function ProjectsSection({
           />
         </div>
       </div>
-      <div className="w-full relative" style={{ height: "800px", paddingBottom: "100px" }}>
+      <div className="w-full relative" style={{ height: "800px" }}>
         <FlowingMenu
           items={demoItems}
           speed={6}
@@ -378,18 +378,31 @@ export default function ProjectsSection({
           borderColor="var(--foreground1-16)"
         />
       </div>
-      <div className="w-full flex justify-center pt-8 pb-4">
-        <Link
-          href="/gallery"
-          className="group px-6 py-2.5 rounded-full bg-background2/70 hover:bg-foreground hover:text-background text-foreground text-xs md:text-sm font-medium flex items-center gap-2 transition-all duration-300 border border-foreground1/20 shadow-sm"
-        >
-          <span>Explore More in Gallery</span>
-          <ArrowUpRight
-            size={16}
-            className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-          />
-        </Link>
-      </div>
+      <AnimatedContent
+        distance={30}
+        direction="vertical"
+        reverse={false}
+        duration={0.9}
+        ease="ease-out"
+        initialOpacity={0}
+        animateOpacity
+        scale={1}
+        threshold={0.1}
+        delay={0.4}
+      >
+        <div className="w-full flex justify-center pt-8 md:pt-25 pb-4">
+          <Link
+            href="/gallery"
+            className="group px-6 py-2.5 rounded-full bg-background2/70 hover:bg-foreground hover:text-background text-foreground text-xs md:text-sm font-medium flex items-center gap-2 transition-all duration-300 border border-foreground1/20 shadow-sm"
+          >
+            <span>Explore More in Gallery</span>
+            <ArrowUpRight
+              size={16}
+              className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            />
+          </Link>
+        </div>
+      </AnimatedContent>
     </section>
   );
 }
