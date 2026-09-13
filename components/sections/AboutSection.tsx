@@ -131,7 +131,17 @@ export default function AboutSection() {
                 threshold={0.1}
                 delay={0.4}
               >
-                <DecayCard image={me_1.src} width={300} height={450} baseFrequency={8} />
+                <div className="hidden md:block">
+                  <DecayCard
+                    image={me_1.src}
+                    width={300}
+                    height={450}
+                    baseFrequency={8}
+                  />
+                </div>
+                <div className="md:hidden">
+                  <Image src={me_1.src} alt="me" width={300} height={450} />
+                </div>
               </AnimatedContent>
             </div>
           </div>
