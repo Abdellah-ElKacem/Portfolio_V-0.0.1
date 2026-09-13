@@ -69,6 +69,8 @@ export const metadata: Metadata = {
     },
 };
 
+import CustomCursor from "@/components/CustomCursor";
+
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -86,6 +88,7 @@ export default function RootLayout({
             <body
                 className={`${workSans.variable} ${ankish.variable} ${crustAce.variable} antialiased`}
             >
+                <CustomCursor />
                 {children}
             </body>
         </html>

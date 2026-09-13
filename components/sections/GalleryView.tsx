@@ -337,7 +337,15 @@ export default function GalleryView() {
                 duration={0.7}
                 delay={index * 0.05}
               >
-                <div className="group w-full h-full flex flex-col justify-between rounded-3xl bg-background2/35 hover:bg-background2/65 border border-foreground1/15 hover:border-foreground/30 p-4 transition-all duration-300 hover:shadow-xl/10">
+                <div
+                  data-cursor="View"
+                  onClick={() => {
+                    setSelectedProject(project);
+                    setIsVisible(true);
+                    setSliderIndex(0);
+                  }}
+                  className="group w-full h-full flex flex-col justify-between rounded-3xl bg-background2/35 hover:bg-background2/65 border border-foreground1/15 hover:border-foreground/30 p-4 transition-all duration-300 hover:shadow-xl/10 cursor-pointer"
+                >
                   <div className="flex flex-col gap-4">
                     {/* Project Slider Image Preview */}
                     <div className="w-full">
@@ -410,6 +418,7 @@ export default function GalleryView() {
                   {/* Card Actions */}
                   <div className="pt-5 px-1 flex items-center justify-between gap-2 border-t border-foreground1/10 mt-4">
                     <button
+                      data-cursor="View"
                       onClick={() => {
                         setSelectedProject(project);
                         setIsVisible(true);
@@ -423,9 +432,11 @@ export default function GalleryView() {
 
                     {project.url && (
                       <a
+                        data-cursor="Open"
                         href={project.url}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
                         title="Open Live Website / Preview"
                         className="p-2 rounded-xl bg-background border border-foreground1/20 hover:border-foreground text-foreground flex items-center justify-center transition-all hover:scale-105"
                       >
@@ -435,9 +446,11 @@ export default function GalleryView() {
 
                     {project.githubUrl && (
                       <a
+                        data-cursor="Code"
                         href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
                         title="View GitHub Repository"
                         className="p-2 rounded-xl bg-background border border-foreground1/20 hover:border-foreground text-foreground flex items-center justify-center transition-all hover:scale-105"
                       >

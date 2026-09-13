@@ -195,8 +195,9 @@ const MenuItem: React.FC<MenuItemProps> = ({
 
   return (
     <div
-      className="relative overflow-hidden text-center transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] cursor-pointer"
+      className="relative flex-1 cursor-pointer overflow-hidden transition-[flex] duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
       ref={itemRef}
+      data-cursor="View"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}

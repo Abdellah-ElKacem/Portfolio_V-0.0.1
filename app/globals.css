@@ -241,3 +241,10 @@ html {
 .ham8.active .bottom {
     stroke-dashoffset: -64px;
 }
+
+@media (pointer: fine) {
+    *, *::before, *::after, body, a, button, [role="button"], input, textarea, select {
+        cursor: none !important;
+    }
+}
+
