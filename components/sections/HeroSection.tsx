@@ -26,7 +26,7 @@ export default function HeroSection({ theme }: HeroSectionProps) {
       className=" flex flex-col md:min-h-[1000px] justify-between w-full max-w-[1536px] px-6"
     >
       <div className="flex flex-col">
-        <h1 className="font-ankish pt-20 md:pt-34 font-bold text-center mx-auto w-full tracking-wide leading-[.9] text-6xl sm:text-9xl md:text-[140px] lg:text-[180px] xl:text-[230px] 2xl:text-[250px] bg-[linear-gradient(to_bottom,var(--color-foreground1-16),transparent)] [-webkit-mask-image:linear-gradient(to_bottom,black_%,transparent_100%)] bg-clip-text text-transparent">
+        <h1 className="font-ankish pt-20 md:pt-34 font-bold text-center mx-auto w-full tracking-wide leading-[.9] text-6xl sm:text-9xl md:text-[140px] lg:text-[180px] xl:text-[230px] 2xl:text-[250px] bg-[linear-gradient(to_bottom,var(--color-foreground1-16),transparent)] [-webkit-mask-image:linear-gradient(to_bottom,black_50%,transparent_100%)] bg-clip-text text-transparent">
           PORTFOLIO
         </h1>
         <div className="flex flex-col lg:flex-row justify-between items-center gap-4 md:-mt-[12%]">
@@ -113,7 +113,9 @@ export default function HeroSection({ theme }: HeroSectionProps) {
                 <Image
                   src={me_3}
                   alt="Me"
+                  priority
                   placeholder="blur"
+                  sizes="(max-width: 768px) 220px, (max-width: 1280px) 340px, 360px"
                   className="w-full h-full object-cover hover:scale-105 transition-all duration-300"
                 />
                 <div className="absolute inset-0 bg-[#222222]/20 pointer-events-none"></div>
