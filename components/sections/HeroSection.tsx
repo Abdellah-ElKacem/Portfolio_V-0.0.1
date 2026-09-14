@@ -14,6 +14,7 @@ import SplitText from "@/components/SplitText";
 import TextType from "@/components/TextType";
 import Magnet from "@/components/Magnet";
 import CircularText from "@/components/CircularText";
+import ResumeDropdown from "@/components/ResumeDropdown";
 
 interface HeroSectionProps {
   theme: string | null;
@@ -92,16 +93,7 @@ export default function HeroSection({ theme }: HeroSectionProps) {
                   <FontAwesomeIcon icon={faDribbble} size="lg" />
                 </a>
               </div>
-              <div className="font-semibold group ">
-                <a
-                  href="/resume"
-                  download
-                  className="inline-block transition-all duration-200 hover:scale-102 hover:-rotate-3 hover:text-[#ffa958] shadow-2xl"
-                >
-                  Download Resume
-                </a>
-                <div className="h-0.5 mt-px w-0 group-hover:w-[120px] bg-[#ffa958] transition-all duration-200 origin-left group-hover:scale-110 group-hover:-rotate-3" />
-              </div>
+              <ResumeDropdown />
             </div>
           </div>
 
