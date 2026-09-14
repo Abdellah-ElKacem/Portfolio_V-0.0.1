@@ -31,9 +31,9 @@ export default function LandingPage() {
     setSliderIndex(0);
   }, [selectedProject]);
 
-  // Auto-advance modal slider
+  // Auto-advance modal slider (only when modal is open)
   useEffect(() => {
-    if (selectedProject && selectedProject.image.length > 1) {
+    if (isVisible && selectedProject && selectedProject.image.length > 1) {
       autoPlayRef.current = setInterval(() => {
         setSliderIndex((i) => (i + 1) % selectedProject.image.length);
       }, 3000);
@@ -41,27 +41,21 @@ export default function LandingPage() {
     return () => {
       if (autoPlayRef.current) clearInterval(autoPlayRef.current);
     };
-  }, [selectedProject]);
+  }, [selectedProject, isVisible]);
 
-  // Lock scroll when loading or modal is open (both html and body)
+  // Lock scroll when loading or modal is open
   useEffect(() => {
     const isLocked = isLoading || isVisible;
     if (isLocked) {
-      document.documentElement.classList.add("no-scroll");
       document.body.classList.add("no-scroll");
-      document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
     } else {
-      document.documentElement.classList.remove("no-scroll");
       document.body.classList.remove("no-scroll");
-      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
     }
 
     return () => {
-      document.documentElement.classList.remove("no-scroll");
       document.body.classList.remove("no-scroll");
-      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
     };
   }, [isLoading, isVisible]);

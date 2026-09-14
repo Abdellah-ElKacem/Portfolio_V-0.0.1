@@ -46,14 +46,14 @@ export default function ProjectModal({
     <>
       <div
         onClick={() => setIsVisible(!isVisible)}
-        className={`fixed inset-0 w-full h-full bg-black/80 backdrop-blur-xs flex justify-center items-center z-500 transition-opacity duration-500 ease-in-out overscroll-contain ${
+        className={`fixed inset-0 w-full h-full bg-black/80 flex justify-center items-center z-500 transition-opacity duration-300 ease-out overscroll-contain ${
           isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className={`w-full flex flex-col bg-background max-w-[350px] md:max-w-[750px] h-full max-h-[90vh] rounded-2xl shadow-2xl border border-background2 p-2 md:p-4 overflow-hidden transition-all duration-500 ease-in-out overscroll-contain ${
-            isVisible ? "scale-100 translate-y-0" : "scale-95 translate-y-4"
+          className={`w-full flex flex-col bg-background max-w-[350px] md:max-w-[750px] h-full max-h-[90vh] rounded-2xl shadow-2xl border border-background2 p-2 md:p-4 overflow-hidden transition-[transform,opacity] duration-300 ease-out will-change-transform overscroll-contain ${
+            isVisible ? "scale-100 translate-y-0 opacity-100" : "scale-95 translate-y-4 opacity-0"
           }`}
         >
           <div className="flex flex-col justify-between gap-3 overflow-x-hidden overflow-y-auto h-full max-h-full hide-scrollbar overscroll-contain">

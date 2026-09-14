@@ -13,6 +13,8 @@ import {
   Sparkles,
   Layers,
   SlidersHorizontal,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import listProject, { ProjectItem } from "@/app/project_list";
 import NavBar from "@/components/sections/NavBar";
@@ -65,6 +67,28 @@ export default function GalleryView() {
   const [selectedTag, setSelectedTag] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
+  // Tag filter horizontal scroll buttons state & ref
+  const tagsContainerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const checkScrollButtons = () => {
+    const el = tagsContainerRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 4);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+  };
+
+  const scrollTags = (direction: "left" | "right") => {
+    if (tagsContainerRef.current) {
+      const scrollAmount = 240;
+      tagsContainerRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
   const searchParams = useSearchParams();
 
   // Auto-open project modal if linked with ?project=ID or ?project=NAME
@@ -84,13 +108,13 @@ export default function GalleryView() {
     }
   }, [searchParams]);
 
-  // Auto-advance modal slider
+  // Auto-advance modal slider ONLY when modal is visible
   useEffect(() => {
     setSliderIndex(0);
   }, [selectedProject]);
 
   useEffect(() => {
-    if (selectedProject && selectedProject.image.length > 1) {
+    if (isVisible && selectedProject && selectedProject.image.length > 1) {
       autoPlayRef.current = setInterval(() => {
         setSliderIndex((i) => (i + 1) % selectedProject.image.length);
       }, 3000);
@@ -98,26 +122,20 @@ export default function GalleryView() {
     return () => {
       if (autoPlayRef.current) clearInterval(autoPlayRef.current);
     };
-  }, [selectedProject]);
+  }, [selectedProject, isVisible]);
 
-  // Lock scroll when modal is open
+  // Lock body scroll when modal is open without triggering layout reflow on documentElement
   useEffect(() => {
     if (isVisible) {
-      document.documentElement.classList.add("no-scroll");
       document.body.classList.add("no-scroll");
-      document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
     } else {
-      document.documentElement.classList.remove("no-scroll");
       document.body.classList.remove("no-scroll");
-      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
     }
 
     return () => {
-      document.documentElement.classList.remove("no-scroll");
       document.body.classList.remove("no-scroll");
-      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
     };
   }, [isVisible]);
@@ -167,6 +185,19 @@ export default function GalleryView() {
       tagCounts: counts,
     };
   }, []);
+
+  // Check scroll buttons on load and when tags container scrolls or resizes
+  useEffect(() => {
+    checkScrollButtons();
+    const el = tagsContainerRef.current;
+    if (!el) return;
+    el.addEventListener("scroll", checkScrollButtons, { passive: true });
+    window.addEventListener("resize", checkScrollButtons);
+    return () => {
+      el.removeEventListener("scroll", checkScrollButtons);
+      window.removeEventListener("resize", checkScrollButtons);
+    };
+  }, [allTags]);
 
   // Filtered projects
   const filteredProjects = useMemo(() => {
@@ -298,39 +329,67 @@ export default function GalleryView() {
           </div>
         </div>
 
-        {/* Tag Filters */}
-        <div className="w-full flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-          <div className="flex items-center gap-1.5 text-xs text-[#93A2A3] mr-2 shrink-0">
-            <SlidersHorizontal size={14} />
-            <span className="font-medium">Filter:</span>
-          </div>
+        {/* Tag Filters with Extra Left/Right Scroll Buttons and Hidden Scrollbar */}
+        <div className="w-full flex items-center gap-1.5 md:gap-2">
+          {/* Scroll Left Button */}
+          <button
+            type="button"
+            onClick={() => scrollTags("left")}
+            disabled={!canScrollLeft}
+            aria-label="Scroll filters left"
+            className="shrink-0 p-1.5 md:p-2 rounded-full bg-background2/70 hover:bg-foreground hover:text-background text-foreground border border-foreground1/15 transition-all duration-200 cursor-pointer disabled:opacity-20 disabled:cursor-not-allowed hover:scale-105 active:scale-95"
+          >
+            <ChevronLeft size={16} />
+          </button>
 
-          {allTags.map((tag) => {
-            const isActive = selectedTag === tag;
-            const count = tagCounts[tag] || 0;
-            return (
-              <button
-                key={tag}
-                onClick={() => setSelectedTag(tag)}
-                className={`shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
-                  isActive
-                    ? "bg-foreground text-background shadow-md shadow-foreground/10"
-                    : "bg-background2/60 text-[#93A2A3] hover:text-foreground hover:bg-background2 border border-foreground1/10"
-                }`}
-              >
-                <span>{tag}</span>
-                <span
-                  className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+          {/* Tags Track */}
+          <div
+            ref={tagsContainerRef}
+            className="flex-1 flex items-center gap-2 overflow-x-auto py-1 scroll-smooth hide-scrollbar [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          >
+            <div className="flex items-center gap-1.5 text-xs text-[#93A2A3] mr-1 shrink-0">
+              <SlidersHorizontal size={14} />
+              <span className="font-medium">Filter:</span>
+            </div>
+
+            {allTags.map((tag) => {
+              const isActive = selectedTag === tag;
+              const count = tagCounts[tag] || 0;
+              return (
+                <button
+                  key={tag}
+                  onClick={() => setSelectedTag(tag)}
+                  className={`shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
                     isActive
-                      ? "bg-background/25 text-background"
-                      : "bg-foreground1/10 text-foreground"
+                      ? "bg-foreground text-background shadow-md shadow-foreground/10"
+                      : "bg-background2/60 text-[#93A2A3] hover:text-foreground hover:bg-background2 border border-foreground1/10"
                   }`}
                 >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
+                  <span>{tag}</span>
+                  <span
+                    className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                      isActive
+                        ? "bg-background/25 text-background"
+                        : "bg-foreground1/10 text-foreground"
+                    }`}
+                  >
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Scroll Right Button */}
+          <button
+            type="button"
+            onClick={() => scrollTags("right")}
+            disabled={!canScrollRight}
+            aria-label="Scroll filters right"
+            className="shrink-0 p-1.5 md:p-2 rounded-full bg-background2/70 hover:bg-foreground hover:text-background text-foreground border border-foreground1/15 transition-all duration-200 cursor-pointer disabled:opacity-20 disabled:cursor-not-allowed hover:scale-105 active:scale-95"
+          >
+            <ChevronRight size={16} />
+          </button>
         </div>
 
         {/* Projects Grid */}
