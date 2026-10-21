@@ -3,13 +3,12 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faXTwitter,
-  faBehance,
   faInstagram,
   faLinkedinIn,
   faDribbble,
 } from "@fortawesome/free-brands-svg-icons";
 import { Mouse } from "lucide-react";
-import me_3 from "@/images/photo.jpeg";
+import me_3 from "@/images/the_hero_image.jpg";
 import SplitText from "@/components/SplitText";
 import TextType from "@/components/TextType";
 import Magnet from "@/components/Magnet";
@@ -66,8 +65,8 @@ export default function HeroSection({ theme }: HeroSectionProps) {
               Let&apos;s build something exceptional.
             </p>
             <div className="flex gap-3 pt-4 text-foreground-title1 text-xs md:text-base items-start">
-              <span className=" font-semibold">Follow Me — </span>
-              <div className="flex gap-3">
+              <span className=" font-semibold mt-1 md:mt-0">Follow Me — </span>
+              <div className="flex gap-3 mt-1 md:mt-0.5">
                 <a
                   href="https://www.instagram.com/abdellah_elkacem/"
                   className="transition-transform duration-200 hover:scale-125 hover:text-[#E1306C] hover:rotate-[-10deg] inline-block"

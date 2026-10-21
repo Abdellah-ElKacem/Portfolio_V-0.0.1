@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import me_1 from "@/images/photo main.jpg";
+import me_1 from "@/images/photo.jpeg";
 import SplitText from "@/components/SplitText";
 import ScrollReveal from "@/components/ScrollReveal";
 import AnimatedContent from "@/components/AnimatedContent";

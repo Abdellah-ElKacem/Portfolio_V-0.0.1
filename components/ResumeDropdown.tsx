@@ -8,7 +8,6 @@ export default function ResumeDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Close when clicking outside or pressing Escape
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -59,7 +58,16 @@ export default function ResumeDropdown() {
         aria-haspopup="true"
         className="cursor-pointer inline-flex items-center gap-1.5 transition-all duration-200 hover:scale-102 hover:-rotate-3 hover:text-[#ffa958] shadow-2xl focus:outline-none text-foreground-title1"
       >
-        <span>Download Resume</span>
+        <span className="hidden md:block text-sm">Download Resume</span>
+        <div className="md:hidden">
+          <FileDown
+            size={20}
+            strokeWidth={1}
+            className={`transition-transform duration-200 ${
+              isOpen ? "rotate-180 text-[#ffa958]" : "text-foreground-title1"
+            }`}
+          />
+        </div>
         <CircleChevronDown
           size={20}
           strokeWidth={1}
@@ -81,9 +89,9 @@ export default function ResumeDropdown() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 8, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 8, scale: 0.96 }}
+            initial={{ opacity: 0, y: 8, x: -170, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, x: -170, scale: 1 }}
+            exit={{ opacity: 0, y: 8, x: -170, scale: 0.96 }}
             transition={{ duration: 0.16, ease: "easeOut" }}
             className="absolute left-0 sm:left-auto sm:right-0 mt-3 w-72 rounded-2xl p-2 z-50 bg-background2/95 backdrop-blur-xl border border-foreground1/20 shadow-2xl text-foreground-title1"
           >
