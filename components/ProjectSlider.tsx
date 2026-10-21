@@ -13,7 +13,6 @@ export default function ProjectSlider({
 
   return (
     <div className="relative w-full h-[300px] overflow-hidden rounded-3xl shadow-md/10 border-5 border-background">
-      {/* Slides: only render active slide to avoid downloading dozens of heavy images */}
       {images.map((img, i) => {
         if (i !== idx) return null;
         return (
