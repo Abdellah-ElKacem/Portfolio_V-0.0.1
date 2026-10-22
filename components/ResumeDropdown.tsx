@@ -89,11 +89,11 @@ export default function ResumeDropdown() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 8, x: -170, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, x: -170, scale: 1 }}
-            exit={{ opacity: 0, y: 8, x: -170, scale: 0.96 }}
+            initial={{ opacity: 0, y: 8, x: 0, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, x: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 8, x: 0, scale: 0.96 }}
             transition={{ duration: 0.16, ease: "easeOut" }}
-            className="absolute left-0 sm:left-auto sm:right-0 mt-3 w-72 rounded-2xl p-2 z-50 bg-background2/95 backdrop-blur-xl border border-foreground1/20 shadow-2xl text-foreground-title1"
+            className="absolute -left-50 sm:left-auto sm:right-0 mt-3 w-72 rounded-2xl p-2 z-50 bg-background2/95 backdrop-blur-xl border border-foreground1/20 shadow-2xl text-foreground-title1"
           >
             <div className="px-3 py-2 border-b border-foreground1/15 mb-1">
               <span className="text-[11px] font-bold uppercase tracking-wider text-foreground-title">
